@@ -1,0 +1,17 @@
+{
+    "description": "Generate single cell accessibility counts for a single library with 10x Cell Ranger ATAC 2.1.0. Input is a directory with all the sequencing reads.",
+    "name": "Cell Ranger ATAC (v2.1)",
+    "reference": {
+        "CellRangerRef": "Path to the reference directory compiled by 10x."
+    },
+    "step": [
+        {
+            "hash": "2ab87fd90c0d056cfded9e96cdb1f8d6",
+            "parameter": "count --id={{JobName}} --reference={{CellRangerRef}} --fastqs {{InputFile}} --localcores={{ThreadN}}",
+            "software": "{{UserBin}}/cellranger-atac-2.1.0/bin/cellranger-atac",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "5f7e862cec7319666175fa41c1877338"
+}

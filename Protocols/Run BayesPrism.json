@@ -1,0 +1,24 @@
+{
+    "description": "This protocol prepares the required input files for BayesPrism and then run BayesPrism on the samples.\nInput: A csv file defining the regions for deconvolution.\nParameters:\n* Fragments: Reference scATAC-seq fragments for each cell type\n* ObsPls: Bulk signal for one sample on the forward strand (bigWig), expects multiple samples\n* ObsMns: Bulk signal for one sample on the reverse strand (bigWig), expects multiple samples\n* ObsLabels: Labels for each bulk sample\n* LatPls: Ground truth signal for each cell type on the forward strand (bigWig)\n* LatMns: Ground truth signal for each cell type on the reverse strand (bigWig)\n* LatLabels: Labels for each ground truth cell type",
+    "name": "Run BayesPrism",
+    "reference": {
+        "BlackListHG38": "Extended black list for hg38."
+    },
+    "step": [
+        {
+            "hash": "166d9f7a6153f96963a79bac2745e052",
+            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/prep_data.py {{InputFile}} --save-to {{Workspace}} --fragments {{Fragments}} --observable-pl {{ObsPls}} --observable-mn {{ObsMns}} --observable-label {{ObsLabels}} --latent-pl {{LatPls}} --latent-mn {{LatMns}} --latent-label {{LatLabels}} --blacklists {{BlackListHG38}} {{AdditionalBlockLists||}} {{FlexPars}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "fe3c1e9f147499f07df07fbf3c15f767",
+            "parameter": "exec --bind /local:/local --bind /media/volume/sdb:/media/volume/sdb {{UserBin}}/pipeline-helpers/BayesPrism/bayesprism.sif Rscript --vanilla {{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/BayesPrism/runner.R bulk_mat.csv sc_mat.csv {{ThreadN}} all",
+            "software": "singularity",
+            "step_order": 2,
+            "version_check": ""
+        }
+    ],
+    "ver": "6f99b38b88ab9a517b0d28cfc177bccd"
+}

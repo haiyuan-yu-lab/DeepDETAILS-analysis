@@ -1,0 +1,29 @@
+{
+    "description": "ENCODE ChIP-seq pipeline\nInput file should be a json file for the wdl",
+    "name": "ChIP-seq (ENCODE, Caper)",
+    "reference": {},
+    "step": [
+        {
+            "hash": "0b58cbe90bffc1a2150b6f3ec54e11e6",
+            "parameter": "run {{UserBin}}/chip-seq-pipeline2/chip.wdl -i {{InputFile}} --singularity",
+            "software": "caper",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "681669f9425e48e729e88ea3e0bbd3da",
+            "parameter": ". -type f -name \"metadata.json\" | grep .caper_tmp | xargs -n 1 croo --method copy",
+            "software": "find",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "2d878b6f59c7650e7024d1c2eab599b9",
+            "parameter": "-rf chip",
+            "software": "rm",
+            "step_order": 3,
+            "version_check": ""
+        }
+    ],
+    "ver": "2829dc7adcefac0eea9a3ef2cda8cd10"
+}

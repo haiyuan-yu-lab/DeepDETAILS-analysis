@@ -1,0 +1,15 @@
+{
+    "description": "Deconvolution with DSA. Three input files:\n1. bulk mixture, csv file, row: genes/regions, col: samples\n2. CIBERSORTx-style signature file, tsv file\n3. row mapping for the signature and bulk_mixture, csv file.",
+    "name": "DSA",
+    "reference": {},
+    "step": [
+        {
+            "hash": "c19561311295fdb7d994e0f340138bce",
+            "parameter": "--vanilla {{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/DSA.R {{InputFile:1}} {{InputFile:2}} {{InputFile:3}}",
+            "software": "Rscript",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "1ee43c680ccdc494671fca8fc84076e1"
+}

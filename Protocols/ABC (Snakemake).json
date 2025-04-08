@@ -1,0 +1,57 @@
+{
+    "description": null,
+    "name": "ABC (Snakemake)",
+    "reference": {},
+    "step": [
+        {
+            "hash": "ab0842f51f8a6147bdf742e1ac2b4edf",
+            "parameter": "-r {{UserBin}}/Analysis/Software/ABC/* .",
+            "software": "cp",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "ddaedd2b3006d642e5d024a37969b3a9",
+            "parameter": "{{InputFile:1}} config/biosamples.tsv",
+            "software": "cp",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "5c41547d334dc39e692a24e3a67c8f87",
+            "parameter": "copy_peaks.py {{InputFile:2}}",
+            "software": "python",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "fa89da40d72cd9c3be122639151d1456",
+            "parameter": "-j 16 -c 16",
+            "software": "snakemake",
+            "step_order": 4,
+            "version_check": ""
+        },
+        {
+            "hash": "0888d4531af0de8eb6723e959b493af5",
+            "parameter": "-rf workflow",
+            "software": "rm",
+            "step_order": 5,
+            "version_check": ""
+        },
+        {
+            "hash": "b798f63cc5448cd5c375536db52aa438",
+            "parameter": "-rf config",
+            "software": "rm",
+            "step_order": 6,
+            "version_check": ""
+        },
+        {
+            "hash": "d3e74a9515b5908aa6ae912ae0a944c4",
+            "parameter": "copy_peaks.py",
+            "software": "rm",
+            "step_order": 7,
+            "version_check": ""
+        }
+    ],
+    "ver": "2948738d8bbb019746909aac0bd14717"
+}

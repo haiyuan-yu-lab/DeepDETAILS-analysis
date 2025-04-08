@@ -1,0 +1,17 @@
+{
+    "description": "Train a Puffin-D model\nParameters:\n* Pls: Learning targets on the forward strand\n* Mns: Learning targets on the reverse strand\n* Labels: Name of the learning targets\n* ValChroms: Chromosomes for validation\n* TestChroms: Chromosomes for testing",
+    "name": "Puffin-D",
+    "reference": {
+        "HG38_PRIMARY_FA_AutoX": "samtools faidx GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta chr1 chr2 chr3 chr4 chr5 chr6 chr7 chr8 chr9 chr10 chr11 chr12 chr13 chr14 chr15 chr16 chr17 chr18 chr19 chr20 chr21 chr22 chrX > GRCh38_no_alt_analysis_set_GCA_000001405.15.22X.fasta"
+    },
+    "step": [
+        {
+            "hash": "b408e564d7da005580eff7dfeab1c2a4",
+            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/supervised_signal_prediction/PuffinD/train_puffin_D.py -p {{Pls}} -m {{Mns}} -l {{Labels}} -f {{HG38_PRIMARY_FA_AutoX}} -t {{TestChroms}} -v {{ValChroms}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "2b1f8b184329ac9a1942fb8d1c9c292d"
+}

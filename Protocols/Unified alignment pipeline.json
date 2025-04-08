@@ -1,0 +1,50 @@
+{
+    "description": "Alignment pipeline for GRO-cap/PRO-seq, etc",
+    "name": "Unified alignment pipeline",
+    "reference": {},
+    "step": [
+        {
+            "hash": "db08f50caee6691759da1c6733ad47d7",
+            "parameter": "--readFilesCommand zcat --runThreadN {{ThreadN}} --outSAMtype BAM SortedByCoordinate --genomeDir {{STAR_INDEX}} --outFileNamePrefix {{JobName}}_ --readFilesIn {{InputFile}}  --quantMode GeneCounts --outSAMmultNmax 1 --outFilterMultimapNmax 50 --outSAMattributes All --alignIntronMax 1000 --alignMatesGapMax 1000",
+            "software": "STAR",
+            "step_order": 1,
+            "version_check": "STAR --version"
+        },
+        {
+            "hash": "0e55164e695e79e6a3ce57bcd79e55e7",
+            "parameter": "view -hb -q 255 -o {{JobName}}.bam {{JobName}}_Aligned.sortedByCoord.out.bam",
+            "software": "samtools",
+            "step_order": 2,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "18fc7d5f3f719756ef9524ad77b715f8",
+            "parameter": "index {{JobName}}.bam",
+            "software": "samtools",
+            "step_order": 3,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "92a4c34f489e5a59b012819ea408b375",
+            "parameter": "{{JobName}}_Aligned.sortedByCoord.out.bam {{JobName}}_raw.bam",
+            "software": "mv",
+            "step_order": 4,
+            "version_check": ""
+        },
+        {
+            "hash": "c62a97942eb506c98fccd3ac32f6e09c",
+            "parameter": "-b {{JobName}}.bam -e {{EXP}} --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_rpm --filters U13369 chrM _ EBV Mycoplasma --rpm --cache",
+            "software": "pints_visualizer",
+            "step_order": 5,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "a9efead29b454f5cfcc6170f2d9c7587",
+            "parameter": "-b {{JobName}}.bam -e {{EXP}} --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}} --filters U13369 chrM _ EBV Mycoplasma",
+            "software": "pints_visualizer",
+            "step_order": 6,
+            "version_check": "pints_visualizer -v"
+        }
+    ],
+    "ver": "6b5fcb804bf5870baa452f9b8f9b3edb"
+}

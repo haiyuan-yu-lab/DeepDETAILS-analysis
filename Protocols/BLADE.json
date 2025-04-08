@@ -1,0 +1,15 @@
+{
+    "description": "Run BLADE deconvolution. This protocol takes three input files: 1) single-cell reference, 2) the bulk mixtures, 3) the signature info file, and 4) signature row mapping file",
+    "name": "BLADE",
+    "reference": {},
+    "step": [
+        {
+            "hash": "b78d3ae40186596ad24110597dc08cce",
+            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/BLADE.py --sc-ref {{InputFile:1}} --mixtures {{InputFile:2}} --signatures {{InputFile:3}} --signature-name-mapping {{InputFile:4}} {{FlexPars}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "fe996607a46c4d9da4e453c86918be99"
+}

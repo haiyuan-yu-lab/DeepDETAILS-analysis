@@ -1,0 +1,235 @@
+{
+    "description": "Protocol for aligning raw reads for PROcap (PE) libraries. This protocol requires two replicates. Expects four input fastq files: r1/r2 for rep1 and r1/r2 for rep2.\nParameters:\nSTAR_INDEX: Path to STAR's genome index dir\nUMI_LEN1: UMI length for rep1 (by default, 6)\nUMI_LOC1: UMI layout for rep1 (by default, per_read)\nUMI_LEN2: UMI length for rep2 (by default, 6)\nUMI_LOC2: UMI layout for rep2 (by default, per_read)\nADAPT1_1: Adapter sequence for read 1, rep 1 (by default, TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC)\nADAPT1_2: Adapter sequence for read 2, rep 1 (by default, GATCGTCGGACTGTAGAACTCTGAAC)\nADAPT2_1: Adapter sequence for read 1, rep 2 (by default, TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC)\nADAPT2_2: Adapter sequence for read 2, rep 2 (by default, GATCGTCGGACTGTAGAACTCTGAAC)",
+    "name": "PROcap_preprocessing_with_rep",
+    "reference": {
+        "API_KEY": "API key",
+        "API_SECRET": "API secret"
+    },
+    "step": [
+        {
+            "hash": "30340df73072d975b1423ad9345c8b5c",
+            "parameter": "raw_qc",
+            "software": "mkdir",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "25392055c654fb580107b3b705dc02ee",
+            "parameter": "--out {{Workspace}}/raw_qc --threads 16 {{InputFile}}",
+            "software": "fastqc",
+            "step_order": 2,
+            "version_check": "fastqc -v"
+        },
+        {
+            "hash": "3726b0e47e91476d533660260d76902d",
+            "parameter": "-i {{InputFile:1}} -I {{InputFile:2}} --umi --umi_len={{UMI_LEN1||6}} --umi_loc={{UMI_LOC1||per_read}} -g --low_complexity_filter -w 16 -c -h ./{{JobName}}_rep1.html -j ./{{JobName}}_rep1.json -o {{JobName}}_rep1.1.fq.gz -O {{JobName}}_rep1.2.fq.gz --adapter_sequence {{ADAPT1_1||TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC}} --adapter_sequence_r2 {{ADAPT1_2||GATCGTCGGACTGTAGAACTCTGAAC}} -p --overlap_len_require 18 --low_complexity_filter -l 18",
+            "software": "fastp",
+            "step_order": 3,
+            "version_check": "fastp -v"
+        },
+        {
+            "hash": "d35ff4bc3edb54024934e1921db4f252",
+            "parameter": "-i {{InputFile:3}} -I {{InputFile:4}} --umi --umi_len={{UMI_LEN2||6}} --umi_loc={{UMI_LOC2||per_read}} -g --low_complexity_filter -w 16 -c -h ./{{JobName}}_rep2.html -j ./{{JobName}}_rep2.json -o {{JobName}}_rep2.1.fq.gz -O {{JobName}}_rep2.2.fq.gz --adapter_sequence {{ADAPT2_1||TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC}} --adapter_sequence_r2 {{ADAPT2_2||GATCGTCGGACTGTAGAACTCTGAAC}} -p --overlap_len_require 18 --low_complexity_filter -l 18",
+            "software": "fastp",
+            "step_order": 4,
+            "version_check": "fastp -v"
+        },
+        {
+            "hash": "340b9ef46e0d0e39f4ec89bab6de2362",
+            "parameter": "--threads 16 -o . {{JobName}}_rep1.1.fq.gz",
+            "software": "fastqc",
+            "step_order": 5,
+            "version_check": "fastqc -v"
+        },
+        {
+            "hash": "4c2ccf54d7876d79bf8e112a22575919",
+            "parameter": "--threads 16 -o . {{JobName}}_rep1.2.fq.gz",
+            "software": "fastqc",
+            "step_order": 6,
+            "version_check": "fastqc -v"
+        },
+        {
+            "hash": "7eebbdd227ac997f6608fe7847466c09",
+            "parameter": "--threads 16 -o . {{JobName}}_rep2.1.fq.gz",
+            "software": "fastqc",
+            "step_order": 7,
+            "version_check": "fastqc -v"
+        },
+        {
+            "hash": "6a1bf5c7dd9addbfc629fff0a46e2544",
+            "parameter": "--threads 16 -o . {{JobName}}_rep2.2.fq.gz",
+            "software": "fastqc",
+            "step_order": 8,
+            "version_check": "fastqc -v"
+        },
+        {
+            "hash": "9b62e45fec5240808b5bc8994000aa45",
+            "parameter": "--readFilesCommand zcat --runThreadN {{ThreadN}} --alignMatesGapMax 1000 --outFilterMultimapNmax 10 --outFilterMismatchNmax 1 --outFilterMultimapScoreRange 0 --outSAMtype BAM SortedByCoordinate --genomeDir {{STAR_INDEX}} --outFileNamePrefix {{JobName}}_rep1_ --readFilesIn {{JobName}}_rep1.1.fq.gz {{JobName}}_rep1.2.fq.gz --alignIntronMax 1000 --quantMode GeneCounts --outSAMattributes All",
+            "software": "STAR",
+            "step_order": 9,
+            "version_check": "STAR --version"
+        },
+        {
+            "hash": "9df6d44c89500f747c8c422e13aa033d",
+            "parameter": "--readFilesCommand zcat --runThreadN {{ThreadN}} --alignMatesGapMax 1000 --outFilterMultimapNmax 10 --outFilterMismatchNmax 1 --outFilterMultimapScoreRange 0 --outSAMtype BAM SortedByCoordinate --genomeDir {{STAR_INDEX}} --outFileNamePrefix {{JobName}}_rep2_ --readFilesIn {{JobName}}_rep2.1.fq.gz {{JobName}}_rep2.2.fq.gz --alignIntronMax 1000 --quantMode GeneCounts --outSAMattributes All",
+            "software": "STAR",
+            "step_order": 10,
+            "version_check": "STAR --version"
+        },
+        {
+            "hash": "09e26e6e94bccac7986bf252f9a3e4ac",
+            "parameter": "view -hb -q 255 -o {{JobName}}_rep1_with_dup.bam {{JobName}}_rep1_Aligned.sortedByCoord.out.bam",
+            "software": "samtools",
+            "step_order": 11,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "ec4c384d022598e75dfbd60c1b0c2e03",
+            "parameter": "index {{JobName}}_rep1_with_dup.bam",
+            "software": "samtools",
+            "step_order": 12,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "cc59100f96c9a6571fbf797dc4c94572",
+            "parameter": "dedup --unpaired-reads=discard --umi-separator=: --paired -I {{JobName}}_rep1_with_dup.bam --output-stats={{JobName}}_rep1 -S {{JobName}}_rep1.bam",
+            "software": "umi_tools",
+            "step_order": 13,
+            "version_check": "umi_tools -v"
+        },
+        {
+            "hash": "c46a687b813b143e34a4aee48822222b",
+            "parameter": "view -hb -q 255 -o {{JobName}}_rep2_with_dup.bam {{JobName}}_rep2_Aligned.sortedByCoord.out.bam",
+            "software": "samtools",
+            "step_order": 14,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "8e3081e2f93b38ddb33e92bfad58e439",
+            "parameter": "index {{JobName}}_rep2_with_dup.bam",
+            "software": "samtools",
+            "step_order": 15,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "fa2400c4bf68cb938fccb078622b8a5c",
+            "parameter": "dedup --unpaired-reads=discard --umi-separator=: --paired -I {{JobName}}_rep2_with_dup.bam --output-stats={{JobName}}_rep2 -S {{JobName}}_rep2.bam",
+            "software": "umi_tools",
+            "step_order": 16,
+            "version_check": "umi_tools -v"
+        },
+        {
+            "hash": "64baa16ee44a1a309c62e44a5c446b13",
+            "parameter": "index {{JobName}}_rep1.bam",
+            "software": "samtools",
+            "step_order": 17,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "09c9d903435dd3e6b6fd365c840bde1e",
+            "parameter": "index {{JobName}}_rep2.bam",
+            "software": "samtools",
+            "step_order": 18,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "bcda9fc106d79fba4225657de1580ce1",
+            "parameter": "bins --bamfiles {{JobName}}_rep1.bam {{JobName}}_rep2.bam -o {{JobName}}.npz -bs 500 -p 16",
+            "software": "multiBamSummary",
+            "step_order": 19,
+            "version_check": "multiBamSummary --version"
+        },
+        {
+            "hash": "fc3e3bc6752f0a25527d99aed2fc4a5d",
+            "parameter": "'BEGIN{OFS=\"\\t\";FS=\"\\t\"}{print $1,$3}' {{JobName}}_rep1_ReadsPerGene.out.tab > {{JobName}}_rep1.counts",
+            "software": "awk",
+            "step_order": 20,
+            "version_check": ""
+        },
+        {
+            "hash": "23c3f86b638aee28bb4232241b0217f8",
+            "parameter": "'BEGIN{OFS=\"\\t\";FS=\"\\t\"}{print $1,$3}' {{JobName}}_rep2_ReadsPerGene.out.tab > {{JobName}}_rep2.counts",
+            "software": "awk",
+            "step_order": 21,
+            "version_check": ""
+        },
+        {
+            "hash": "a5c7e5b4a7f5c1a92b40a70fe5498c43",
+            "parameter": "merge -fh {{JobName}}_rep1.bam {{JobName}}_merged.bam {{JobName}}_rep1.bam {{JobName}}_rep2.bam",
+            "software": "samtools",
+            "step_order": 22,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "8b928c05aa70c3eb80624aeb409c1288",
+            "parameter": "-b {{JobName}}_rep1.bam -e CoPRO --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_rep1_rpm --filters U13369 chrM _ EBV Mycoplasma --rpm --cache",
+            "software": "pints_visualizer",
+            "step_order": 23,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "081d048c8209b504df46784625702bab",
+            "parameter": "-b {{JobName}}_rep2.bam -e CoPRO --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_rep2_rpm --filters U13369 chrM _ EBV Mycoplasma --rpm --cache",
+            "software": "pints_visualizer",
+            "step_order": 24,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "3ff5b15b44f1ee8048a09e3381e71fb5",
+            "parameter": "-b {{JobName}}_rep1.bam -e CoPRO --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_rep1 --filters U13369 chrM _ EBV Mycoplasma",
+            "software": "pints_visualizer",
+            "step_order": 25,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "143ce48bac0b0e0ae757fec25870d702",
+            "parameter": "-b {{JobName}}_rep2.bam -e CoPRO --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_rep2 --filters U13369 chrM _ EBV Mycoplasma",
+            "software": "pints_visualizer",
+            "step_order": 26,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "9c777b156536956bb5b18bcb72564a06",
+            "parameter": "-b {{JobName}}_merged.bam -e CoPRO --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_merged_rpm --filters U13369 chrM _ EBV Mycoplasma --rpm --cache",
+            "software": "pints_visualizer",
+            "step_order": 27,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "f8f88799e15a8c9986d13e45106bf0c4",
+            "parameter": "-b {{JobName}}_merged.bam -e CoPRO --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_merged --filters U13369 chrM _ EBV Mycoplasma",
+            "software": "pints_visualizer",
+            "step_order": 28,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "266dfa27a3384709ef759611cddadeac",
+            "parameter": "-b {{JobName}}_rep1.bam -e R1_5 -r --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_rep1_3p --filters U13369 chrM _ EBV Mycoplasma",
+            "software": "pints_visualizer",
+            "step_order": 29,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "0bef0dee54f22e70fa5ee2a91127b34a",
+            "parameter": "-b {{JobName}}_rep2.bam -e R1_5 -r --mapq-threshold 255 --chromosome-start-with chr -o {{JobName}}_rep2_3p --filters U13369 chrM _ EBV Mycoplasma",
+            "software": "pints_visualizer",
+            "step_order": 30,
+            "version_check": "pints_visualizer -v"
+        },
+        {
+            "hash": "a7cd670bcfd8e7921eb73a7492b8c241",
+            "parameter": "merge -fh {{JobName}}_rep1_with_dup.bam {{JobName}}_merged_with_dup.bam {{JobName}}_rep1_with_dup.bam {{JobName}}_rep2_with_dup.bam",
+            "software": "samtools",
+            "step_order": 31,
+            "version_check": "samtools --version | head -n 1"
+        },
+        {
+            "hash": "800b1d17c9414ecf82eb15fa1c7927e9",
+            "parameter": "/local/storage/ly349/BioQueue/ROQC/quality_report.py -i {{JobName}}_rep1 {{JobName}}_rep2 -b  {{JobName}}.npz -p -j {{Job}} -o {{JobName}} --api-key {{API_KEY}} --api-secret {{API_SECRET}}",
+            "software": "python",
+            "step_order": 32,
+            "version_check": ""
+        }
+    ],
+    "ver": "e5018f5493ab194ff4e23b9fb0941505"
+}

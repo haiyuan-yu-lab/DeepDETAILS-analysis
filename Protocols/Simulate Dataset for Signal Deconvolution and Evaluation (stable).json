@@ -1,0 +1,40 @@
+{
+    "description": "Build dataset for training DeepDETAILS models and evaluating its performance.\nInputs: fragments files\nParameters:\n* SampleLabels: Name of each cell type\n* RawPls: Forward strand signal for each cell type\n* RawMns: Reverse strand signal for each cell type\n* TotalCounts: Total read counts in the bulk sample (default: 31000000)\n* TotalCells: Total cells in the reference sample\n* ContRatio: Contribution ratio of different cell types to the bulk (default: 1 / equal contribution)\n* MeanFragsCell: Fragment sampling mean per cell (default: 10000)\n* StdFragsCell: Fragment sampling std per cell (default: 833)\n* CellBarcodes: Cell barcode files for each snATAC-seq sample\n* FragProcessing: snATAC-seq fragments processing pipeline (default: naive)\n* RandomSeed: Seed for random sampling processes (default:1234567)\n* BgSampRatio: Background sampling ratio (default: 1.0)\n* WindowSize: Input window size (default: 4096)\n* BgBlock: Blocked regions\n* GenomeFa: Genome sequence file\n* ChromSize: Chromosome size file\n* RawFormat: Format of the bulk library signal (default: end_bw)\n* WigTool: Path to wiggletools\n* W2B: Path to wigToBigWig\n* FlexPars: Other parameters to build_dataset.py",
+    "name": "Simulate Dataset for Signal Deconvolution and Evaluation (stable)",
+    "reference": {
+        "BlackListHG38": "Extended black list for hg38.",
+        "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)",
+        "HG38_PRIMARY_FA": "Primary assemblies of human reference genome GRCh38+chrM+EBV."
+    },
+    "step": [
+        {
+            "hash": "bf43d4e5704917066d0233444be48d9c",
+            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/simulation/build_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --raw-pl {{RawPls}} --raw-mn {{RawMns}} --sc-atac {{InputFile}} --total-counts {{TotalCounts||31000000}} --total-cells {{TotalCells}} --contrib-ratio {{ContRatio||1}} --mean-frags-per-cell {{MeanFragsCell||10000}} --std-frags-per-cell {{StdFragsCell||833}} --cell-barcodes {{CellBarcodes}} --frag-processing {{FragProcessing||naive}} -r {{RandomSeed||1234567}} --background-sampling-ratio {{BgSampRatio||1.}} --window-size {{WindowSize||4096}} --background-blacklist {{BlackListHG38}} --genome-fa {{HG38_PRIMARY_FA}} --chrom-size {{CellRangerATAC2020ChromSize}} --raw-format {{RawFormat||end_bw}} --wiggletools {{WigTool||{{WiggleTools}}}} --wig2bw {{W2B||wigToBigWig}} {{FlexPars}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "b95f6d91edb9bae7f4b52e25039ead1f",
+            "parameter": "-f pybedtools*.tmp",
+            "software": "rm",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "fdebb5128e0e5c9e5f3b5b20a75c4d91",
+            "parameter": "-v \"#\" regions.csv | awk 'BEGIN{FS=\",\";OFS=\"\\t\"}{if($4==1)print $1,$2,$3,NR,$5}' > pos_regions.bed",
+            "software": "grep",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "5841b167f915c59c6479869e71edef63",
+            "parameter": "-f *.cs.bed",
+            "software": "rm",
+            "step_order": 4,
+            "version_check": ""
+        }
+    ],
+    "ver": "c20edcae0950fc5978d54010ff48121f"
+}

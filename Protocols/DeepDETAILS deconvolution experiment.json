@@ -1,0 +1,15 @@
+{
+    "description": "Run deconvolution experiments with DeepDETAILS\nInput: Data directory prepared by DeepDETAILS\nParameters:\n* Reps: Replicate runs\n* FlexPar: Other parameters passed to DeepDETAILS deconv",
+    "name": "DeepDETAILS deconvolution experiment",
+    "reference": {},
+    "step": [
+        {
+            "hash": "6460d141b6299aeb284a52f8be22a06c",
+            "parameter": "for i in {1..{{Reps||3}}}\ndo\n  mkdir log_r${i};\n  deepdetails deconv --dataset {{InputFile}} --save-to ./log_r${i} --study-name {{JobName}}-r${i} -v $(basename -- \"{{Workspace}}\")-r${i} {{FlexPar||--hide-progress-bar}};\ndone",
+            "software": "__SHELL__",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "11d434fdcf2e03e7e8bd7813983b7dc6"
+}

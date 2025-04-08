@@ -1,0 +1,36 @@
+{
+    "description": "Interpret input features that contribute to model's prediction\nInput file: Checkpoint file for the model\nParameters:\n* Dataset: DeepDETAILS dataset for profiling attributions\n* AttributionMethod: Attribution method\n* FlexPars: Other parameters to grad_attrib.v1.py",
+    "name": "Attribution analysis",
+    "reference": {},
+    "step": [
+        {
+            "hash": "0fcd0fb25e34909f23d78cd15a26d58e",
+            "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/DeepDETAILS .",
+            "software": "cp",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "307fe25ab6137192eb9c2c8a24a81d76",
+            "parameter": "DeepDETAILS/src && git fetch --all && git checkout {{commit}}",
+            "software": "cd",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "9f4d7a546327544e43e5d38944cf9da1",
+            "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python {{UserBin}}/Analysis/Software/pipeline-helpers/explanation/grad_attrib.v1.py --model-file {{InputFile}} --root {{Dataset}} --attr-method {{AttributionMethod||ixg}} --save-to {{Workspace}}/attr {{FlexPars}}",
+            "software": "export",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "64305a7940312b899b7f133b969cc41d",
+            "parameter": "-rf DeepDETAILS",
+            "software": "rm",
+            "step_order": 4,
+            "version_check": ""
+        }
+    ],
+    "ver": "853634580bac588ae62d373911d99b2d"
+}

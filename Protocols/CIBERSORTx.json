@@ -1,0 +1,50 @@
+{
+    "description": "CIBERSORTx with S-mode batch effect correction.\nInput: Bulk count matrix\nParameters:\n* ReferenceMat: scATAC-seq reference matrix\n* AuthUser: CIBERSORTx username\n* AuthToken: CIBERSORTx token\n* SingleCell: Create a matrix from scRNA-Seq data [default: TRUE]\n* Fraction: Average gene expression threshold (in log2 space) for cells with the same identity/phenotype showing evidence of expression [default: 0.75]\n* MixtureLabels: Deprecated parameter\n* FlexPars:\n* FlexParFractions:\n* FlexParGroupMode:\n* FlexParHiResMode:",
+    "name": "CIBERSORTx",
+    "reference": {},
+    "step": [
+        {
+            "hash": "2b180791352708cbd8d04b9f3a5a90ac",
+            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/CIBERSORTx/prep_data.py --sc-ref {{ReferenceMat}} --mixtures {{InputFile}} --mixture-labels {{MixtureLabels||placeholder}} {{FlexPars}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "e1ae231f746611c84e87568a414e761d",
+            "parameter": "exec --bind /local:/local --bind /media/volume/sdb:/media/volume/sdb --bind {{Workspace}}:/src/data --bind {{Workspace}}:/src/outdir {{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/CIBERSORTx/fractions_latest.sif /src/CIBERSORTxFractions --username {{AuthUser||{{CIBERSORTxUser}}}} --token {{AuthToken||{{CIBERSORTxToken}}}} --mixture bulk.tsv --refsample refsample.tsv --single_cell {{SingleCell||TRUE}} --fraction {{Fraction||0.75}} --verbose TRUE --rmbatchSmode TRUE --label {{Job}} {{FlexParFractions}}",
+            "software": "singularity",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "3a389d32e0c90d49600b76f7c56d8f4b",
+            "parameter": "CIBERSORTx_{{Job}}_refsample_inferred_phenoclasses.CIBERSORTx_{{Job}}_refsample_inferred_refsample.bm.K*.txt signature.txt",
+            "software": "cp",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "e5be23a46cdec1995d565046bc0ff4ff",
+            "parameter": "exec --bind /local:/local --bind /media/volume/sdb:/media/volume/sdb --bind {{Workspace}}:/src/data --bind {{Workspace}}:/src/outdir {{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/CIBERSORTx/gep_latest.sif Rscript /src/R_modules/CIBERSORTxGEP.R --username {{AuthUser||{{CIBERSORTxUser}}}} --token {{AuthToken||{{CIBERSORTxToken}}}} --mixture bulk.tsv --sigmatrix signature.txt --label {{Job}} --rmbatchSmode TRUE --refsample refsample.tsv {{FlexParGroupMode}}",
+            "software": "singularity",
+            "step_order": 4,
+            "version_check": ""
+        },
+        {
+            "hash": "0ac51000532e89974c423c0628e56c64",
+            "parameter": "exec --bind /local:/local --bind /media/volume/sdb:/media/volume/sdb --bind {{Workspace}}:/src/data --bind {{Workspace}}:/src/outdir {{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/CIBERSORTx/hires_latest.sif /src/CIBERSORTxHiRes --username {{AuthUser||{{CIBERSORTxUser}}}} --token {{AuthToken||{{CIBERSORTxToken}}}} --mixture bulk.tsv --sigmatrix signature.txt --label {{Job}} --rmbatchSmode TRUE --refsample refsample.tsv {{FlexParHiResMode}}",
+            "software": "singularity",
+            "step_order": 5,
+            "version_check": ""
+        },
+        {
+            "hash": "d1a93250a33fec550a7ab651545170dd",
+            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/statistical_deconvolution/CIBERSORTx/agg_data.py {{Job}}",
+            "software": "python",
+            "step_order": 6,
+            "version_check": ""
+        }
+    ],
+    "ver": "b513c15613b6d939bfc9afbb48b3c0fe"
+}
