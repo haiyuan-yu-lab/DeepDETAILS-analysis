@@ -16,8 +16,8 @@ Files are in json format; they are structured as follows:
     * key: name of the reference
     * value: description about this reference
 
-### Analysis
-Scripts that we used to analyze data generated from protocols and produce aggregated files for downstream plotting.
+### Notebooks
+Jupyter Notebooks used to analyze data and create figures for our manuscript.
 
 ### Software
 In house scripts and modifications to published tools to incorporate them into our pipeline.
