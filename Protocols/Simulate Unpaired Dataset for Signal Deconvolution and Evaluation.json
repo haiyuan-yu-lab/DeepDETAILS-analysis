@@ -1,0 +1,16 @@
+{
+    "description": "Simulate cases where the bulk library and the scATAC-seq library come from different sources.\nInput files:\n1.: dataset providing bulk/target assay (to be deconvolved) signal (e.g., run-on)\n2.: dataset providing accessibility signal\nHow? Combine datasets simulated with different cell ratios. For example, use bulk library simulated with even ratios and scATAC library simulated with uneven ratios (e.g. one dominant cell type)",
+    "name": "Simulate Unpaired Dataset for Signal Deconvolution and Evaluation",
+    "reference": {},
+    "id": 346,
+    "step": [
+        {
+            "hash": "06b6f8e9ccface3e01bf6a7262b9e76e",
+            "parameter": "{{UserBin}}/pipeline-helpers/downsampling/build_unpaired_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --target-source {{InputFile:1}} --target-name {{TargetDataName}} --accessibility-source {{InputFile:2}} --accessibility-name {{AccessibilityDataName}} --target-sliding-sum {{TargetSlidingSum||0}} --window-size {{WindowSize||4096}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{HG38ChromSize}}}} {{FlexPars}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "a50637ad234301775aec932441eda28c"
+}

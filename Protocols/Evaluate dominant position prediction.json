@@ -1,0 +1,16 @@
+{
+    "description": null,
+    "name": "Evaluate dominant position prediction",
+    "reference": {},
+    "id": 421,
+    "step": [
+        {
+            "hash": "cbe5c4c0a7d109cb8fd91ce00a1a0bd7",
+            "parameter": "{{UserBin}}/pipeline-helpers/evaluation/dominant_position.py -p {{PlPreds}} -m {{MnPreds}} -P {{PlObs}} -M {{MnObs}} -r {{InputFile}} -o {{Workspace}}/{{JobName}} -b {{BatchSize||32}} -s {{SummitThreshold||10}} --n-samples {{NSamples||5000}} --random-seed {{Job}} {{FlexPars}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "267f68b225aede57ab0bcc806a7cc622"
+}

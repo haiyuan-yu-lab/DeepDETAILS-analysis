@@ -6,17 +6,18 @@
         "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)",
         "HG38_PRIMARY_FA": "Primary assemblies of human reference genome GRCh38+chrM+EBV."
     },
+    "id": 322,
     "step": [
         {
-            "hash": "bf43d4e5704917066d0233444be48d9c",
-            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/simulation/build_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --raw-pl {{RawPls}} --raw-mn {{RawMns}} --sc-atac {{InputFile}} --total-counts {{TotalCounts||31000000}} --total-cells {{TotalCells}} --contrib-ratio {{ContRatio||1}} --mean-frags-per-cell {{MeanFragsCell||10000}} --std-frags-per-cell {{StdFragsCell||833}} --cell-barcodes {{CellBarcodes}} --frag-processing {{FragProcessing||naive}} -r {{RandomSeed||1234567}} --background-sampling-ratio {{BgSampRatio||1.}} --window-size {{WindowSize||4096}} --background-blacklist {{BlackListHG38}} --genome-fa {{HG38_PRIMARY_FA}} --chrom-size {{CellRangerATAC2020ChromSize}} --raw-format {{RawFormat||end_bw}} --wiggletools {{WigTool||{{WiggleTools}}}} --wig2bw {{W2B||wigToBigWig}} {{FlexPars}}",
+            "hash": "44bf3bc145c7d84cdbf0a2e20da88742",
+            "parameter": "{{UserBin}}/pipeline-helpers/downsampling/build_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --raw-pl {{RawPls}} --raw-mn {{RawMns}} --sc-atac {{InputFile}} --total-counts {{TotalCounts||31000000}} --total-cells {{TotalCells}} --contrib-ratio {{ContRatio||1}} --mean-frags-per-cell {{MeanFragsCell||10000}} --std-frags-per-cell {{StdFragsCell||833}} --cell-barcodes {{CellBarcodes}} --frag-processing {{FragProcessing||encode}} -r {{RandomSeed||1234567}} --background-sampling-ratio {{BgSampRatio||0.}} --window-size {{WindowSize||2114}} --background-blacklist {{BgBlock||{{BlackListHG38}}}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{HG38ChromSize}}}} --raw-format {{RawFormat||end_bw}} --wiggletools {{WigTool||{{WiggleTools}}}} --wig2bw {{W2B||wigToBigWig}} {{FlexPars}}",
             "software": "python",
             "step_order": 1,
             "version_check": ""
         },
         {
-            "hash": "b95f6d91edb9bae7f4b52e25039ead1f",
-            "parameter": "-f pybedtools*.tmp",
+            "hash": "3b015e879a077600ec831041b1293e74",
+            "parameter": "pybedtools*.tmp || true",
             "software": "rm",
             "step_order": 2,
             "version_check": ""
@@ -29,8 +30,8 @@
             "version_check": ""
         },
         {
-            "hash": "5841b167f915c59c6479869e71edef63",
-            "parameter": "-f *.cs.bed",
+            "hash": "c285aedafe3aaa9798771837b473825b",
+            "parameter": "*.cs.bed || true",
             "software": "rm",
             "step_order": 4,
             "version_check": ""

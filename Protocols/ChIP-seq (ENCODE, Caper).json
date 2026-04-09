@@ -2,6 +2,7 @@
     "description": "ENCODE ChIP-seq pipeline\nInput file should be a json file for the wdl",
     "name": "ChIP-seq (ENCODE, Caper)",
     "reference": {},
+    "id": 325,
     "step": [
         {
             "hash": "0b58cbe90bffc1a2150b6f3ec54e11e6",

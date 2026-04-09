@@ -2,6 +2,7 @@
     "description": "Alignment pipeline for GRO-cap/PRO-seq, etc",
     "name": "Unified alignment pipeline",
     "reference": {},
+    "id": 147,
     "step": [
         {
             "hash": "db08f50caee6691759da1c6733ad47d7",

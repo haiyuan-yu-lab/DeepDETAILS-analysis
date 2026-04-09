@@ -1,0 +1,51 @@
+{
+    "description": "Merge bam files, header information in the first bam file will be used as header for the new merged bam file.",
+    "name": "Merged bam files",
+    "reference": {},
+    "id": 105,
+    "step": [
+        {
+            "hash": "3701a4e726688aced57f400a0dee0efe",
+            "parameter": "view -H {{InputFile:1}} > header.sam ",
+            "software": "samtools",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "341133cff3a29dcf6b993025996328fe",
+            "parameter": "merge -h header.sam {{JobName}}.bam {{InputFile}}",
+            "software": "samtools",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "9095ea1cbd1df07636fafa8bfe74ba79",
+            "parameter": "index -@ 16 {{JobName}}.bam",
+            "software": "samtools",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "58a345f517bd83f7e8d93f17b6b13413",
+            "parameter": "header.sam",
+            "software": "rm",
+            "step_order": 4,
+            "version_check": ""
+        },
+        {
+            "hash": "024d7870b2676d8a646f51374f498c44",
+            "parameter": "-b {{JobName}}.bam -e {{EXP}} --mapq-threshold {{MAQP||255}} --chromosome-start-with chr -o {{JobName}} --filters U13369 chrM _ EBV Mycoplasma",
+            "software": "pints_visualizer",
+            "step_order": 5,
+            "version_check": ""
+        },
+        {
+            "hash": "6ab902eb9090b9bc18c68bf9d1a30132",
+            "parameter": "-b {{JobName}}.bam -e {{EXP}} --mapq-threshold {{MAQP||255}} --chromosome-start-with chr -o {{JobName}}_rpm --filters U13369 chrM _ EBV Mycoplasma --rpm",
+            "software": "pints_visualizer",
+            "step_order": 6,
+            "version_check": ""
+        }
+    ],
+    "ver": "41921976d801befc39e034d86cc797e8"
+}

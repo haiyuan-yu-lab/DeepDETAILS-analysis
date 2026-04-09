@@ -1,0 +1,55 @@
+{
+    "description": "Build dataset for training DeepDETAILS models and evaluating its performance.\nInputs: fragments files\nParameters:\n* SampleLabels: Name of each cell type\n* RawPls: Forward strand signal for each cell type\n* RawMns: Reverse strand signal for each cell type\n* TotalCounts: Total read counts in the bulk sample (default: 31000000)\n* TotalCells: Total cells in the reference sample\n* ContRatio: Contribution ratio of different cell types to the bulk (default: 1 / equal contribution)\n* MeanFragsCell: Fragment sampling mean per cell (default: 10000)\n* StdFragsCell: Fragment sampling std per cell (default: 833)\n* CellBarcodes: Cell barcode files for each snATAC-seq sample\n* FragProcessing: snATAC-seq fragments processing pipeline (default: naive)\n* RandomSeed: Seed for random sampling processes (default:1234567)\n* BgSampRatio: Background sampling ratio (default: 1.0)\n* WindowSize: Input window size (default: 4096)\n* BgBlock: Blocked regions\n* GenomeFa: Genome sequence file\n* ChromSize: Chromosome size file\n* RawFormat: Format of the bulk library signal (default: end_bw)\n* WigTool: Path to wiggletools\n* W2B: Path to wigToBigWig\n* FlexPars: Other parameters to build_dataset.py",
+    "name": "Simulate Dataset for Signal Deconvolution and Evaluation with preflight (light)",
+    "reference": {
+        "BlackListHG38": "Extended black list for hg38.",
+        "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)",
+        "HG38_PRIMARY_FA": "Primary assemblies of human reference genome GRCh38+chrM+EBV."
+    },
+    "id": 418,
+    "step": [
+        {
+            "hash": "de94f72680b916621f2ce5fc5360b333",
+            "parameter": "{{UserBin}}/pipeline-helpers/downsampling/brg_dssim_dpds.py -i $(dirname \"{{InputFile:1}}\")",
+            "software": "python",
+            "step_order": 5,
+            "version_check": ""
+        },
+        {
+            "hash": "072f24c4ebf527889a60ceb3cda6a22e",
+            "parameter": "zcat merged_fragments.tsv.gz | sed '/^#/d' | awk -v OFS='\\t' '{mid=int(($2+$3)/2); print $1,$2,mid,\"N\",1000,\"+\"; print $1,mid+1,$3,\"N\",1000,\"-\"}' | sort -k 1,1V -k 2,2n -k3,3n --parallel 5 | bgzip -c > tagAlign.gz",
+            "software": "LC_ALL=C",
+            "step_order": 6,
+            "version_check": ""
+        },
+        {
+            "hash": "54b78dc73b77c8c43fd1d800301be2f8",
+            "parameter": "-p bed tagAlign.gz",
+            "software": "tabix",
+            "step_order": 7,
+            "version_check": ""
+        },
+        {
+            "hash": "e77745ba73097e967ac50a283c039f78",
+            "parameter": "callpeak -f BED -g hs -q 0.01 -n macs2 --shift -75 --extsize 150 --nomodel --keep-dup all --outdir atacPeaks -t tagAlign.gz",
+            "software": "macs2",
+            "step_order": 8,
+            "version_check": ""
+        },
+        {
+            "hash": "e7f378398dc693e88965f4572546475b",
+            "parameter": "tagAlign.gz",
+            "software": "rm",
+            "step_order": 9,
+            "version_check": ""
+        },
+        {
+            "hash": "511ce8873f358b50b14c7c8a5a6e484d",
+            "parameter": "PYTHONPATH=/media/volume/sdb/projects/Deconvolution/Software/main/src:$PYTHONPATH && export par_dir=$(dirname \"{{InputFile:1}}\") && python /media/volume/sdb/projects/Deconvolution/Software/main/src/deepdetails/cli.py prep-data --bulk-pl {{BulkPl}} --bulk-mn {{BulkMn}} --save-to {{Workspace}} --genome-fa {{HG38_PRIMARY_FA}} --chrom-size {{CellRangerATAC2020ChromSize}} --fragments merged_fragments.tsv.gz --barcodes merged_bcs.tsv --regions {{InputFile}} --accessible-regions atacPeaks/macs2_peaks.narrowPeak --background-sampling-ratio 1.0 --background-blacklist {{BlackListHG38}} --ref-labels $(cut -d',' -f1 $par_dir/scatac.norm.csv | sed -E 's/atac_ds\\.([^.]+)\\.tsv\\.gz/\\1/' | tr '\\n' ' ') --ref-pls $(cut -d',' -f1 $par_dir/scatac.norm.csv | sed -E \"s|atac_ds\\.([^.]+)\\.tsv\\.gz|$par_dir\\/\\1.ds.pl.bw|\" | tr '\\n' ' ') --ref-mns $(cut -d',' -f1 $par_dir/scatac.norm.csv | sed -E \"s|atac_ds\\.([^.]+)\\.tsv\\.gz|$par_dir\\/\\1.ds.mn.bw|\" | tr '\\n' ' ') {{FlexPars||--collapse-missing-cell-types}}",
+            "software": "export",
+            "step_order": 12,
+            "version_check": ""
+        }
+    ],
+    "ver": "9c359abbf0c70c3ae6f01b8a1af44d8b"
+}

@@ -1,0 +1,30 @@
+{
+    "description": "Evaluate multiple model training runs",
+    "name": "Evaluate different runs",
+    "reference": {},
+    "id": 317,
+    "step": [
+        {
+            "hash": "5f5a5ebe1f0c335ecd5b7393d280affd",
+            "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/main .",
+            "software": "cp",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "66ba67134b3a092e388b577c26683334",
+            "parameter": "main/src && git checkout {{commit}}",
+            "software": "cd",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "806ce49ee26d48e60863a7c21cb072ef",
+            "parameter": "{{UserBin}}/pipeline-helpers/evaluation/mult_runs.py {{Workspace}} --checkpoints {{InputFile}} --root {{Dataset}} --cv {{Validation||chr22}} --ct {{Test||chr19}} --batch-size {{BatchSize||32}} --local-logdir {{Workspace}}/logs {{FlexPar||--hide-progress-bar --pos-only}}",
+            "software": "python",
+            "step_order": 3,
+            "version_check": ""
+        }
+    ],
+    "ver": "5fa8a865de60d0b5d8c3cc48ae5dfd11"
+}
