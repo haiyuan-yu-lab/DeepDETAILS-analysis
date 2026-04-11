@@ -187,66 +187,52 @@
             "version_check": ""
         },
         {
-            "hash": "800b1d17c9414ecf82eb15fa1c7927e9",
-            "parameter": "/local/storage/ly349/BioQueue/ROQC/quality_report.py -i {{JobName}}_rep1 {{JobName}}_rep2 -b  {{JobName}}.npz -p -j {{Job}} -o {{JobName}} --api-key {{API_KEY}} --api-secret {{API_SECRET}}",
-            "software": "python",
-            "step_order": 26,
-            "version_check": ""
-        },
-        {
             "hash": "6a6280ed936e3721ec9218072b74f051",
             "parameter": "{{JobName}}_merged_pl.bw out.pl.bw",
             "software": "mv",
-            "step_order": 27,
+            "step_order": 26,
             "version_check": ""
         },
         {
             "hash": "1b5509ae2ab5b3e54603668938350b9c",
             "parameter": "-s out.pl.bw {{JobName}}_merged_pl.bw",
             "software": "ln",
-            "step_order": 28,
+            "step_order": 27,
             "version_check": ""
         },
         {
             "hash": "262f2b463ed1ce2eb840a1db011df3c3",
             "parameter": "{{JobName}}_merged_mn.bw out.mn.bw",
             "software": "mv",
-            "step_order": 29,
+            "step_order": 28,
             "version_check": ""
         },
         {
             "hash": "12c57237843b97cd44de16611c71cb5e",
             "parameter": "-s out.mn.bw {{JobName}}_merged_mn.bw",
             "software": "ln",
-            "step_order": 30,
+            "step_order": 29,
             "version_check": ""
         },
         {
             "hash": "28dd4460d0bdb8aba041eb11e69d5151",
             "parameter": "--bw-pl {{JobName}}_merged_pl.bw --bw-mn {{JobName}}_merged_mn.bw --save-to . --file-prefix {{JobName}} --thread 16 --fdr-target {{FDR||0.3}}",
             "software": "pints_caller",
-            "step_order": 31,
-            "version_check": ""
-        },
-        {
-            "hash": "c3ce197c498714075cc63c5c57ba5e15",
-            "parameter": "PYTHONPATH={{UserBin}}/DETAILS/src:$PYTHONPATH && python {{UserBin}}/DETAILS/src/deepdetails/cli.py prep-data --bulk-pl {{JobName}}_merged_pl.bw --bulk-mn {{JobName}}_merged_mn.bw --save-to {{Workspace}} --genome-fa {{HG38_PRIMARY_FA}} --chrom-size {{CellRangerATAC2020ChromSize}} --fragments {{InputFile:5}} --barcodes {{InputFile:6}} --regions {{JobName}}_1_bidirectional_peaks.bed {{JobName}}_1_unidirectional_peaks.bed --accessible-regions {{InputFile:7}} --background-sampling-ratio 1.0 --background-blacklist {{BlackListHG38}} {{FlexPar}}",
-            "software": "export",
-            "step_order": 32,
+            "step_order": 30,
             "version_check": ""
         },
         {
             "hash": "0d751fdd77315664c0649162c3109e7a",
             "parameter": "*rep*.bam",
             "software": "rm",
-            "step_order": 33,
+            "step_order": 31,
             "version_check": ""
         },
         {
             "hash": "03dc095a3b737c2e9fe096eabb5bf494",
             "parameter": "*.fq.gz",
             "software": "rm",
-            "step_order": 34,
+            "step_order": 32,
             "version_check": ""
         }
     ],

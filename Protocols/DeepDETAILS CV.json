@@ -1,0 +1,44 @@
+{
+  "description": ";",
+  "name": "DeepDETAILS with chromosomal CV",
+  "reference": {},
+  "id": 384,
+  "step": [
+    {
+      "hash": "0fcd0fb25e34909f23d78cd15a26d58e",
+      "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/DeepDETAILS .",
+      "software": "cp",
+      "step_order": 1,
+      "version_check": ""
+    },
+    {
+      "hash": "52d6f06f73819c1e42cb25b4100e0d20",
+      "parameter": "DeepDETAILS/src && git checkout {{commit}}",
+      "software": "cd",
+      "step_order": 2,
+      "version_check": ""
+    },
+    {
+      "hash": "dcfaa12c0dd63ef0c3a348aae1610074",
+      "parameter": "-s {{InputFile}} dataset",
+      "software": "ln",
+      "step_order": 3,
+      "version_check": ""
+    },
+    {
+      "hash": "ddcc7feaf1053fcc8886f787050af3b1",
+      "parameter": "DeepDETAILS/src/deepdetails/cli.py deconv --dataset ./dataset --study-name {{JobName}} --chrom-cv --devices 0 {{FlexPar||--hide-progress-bar}}",
+      "software": "python",
+      "step_order": 4,
+      "version_check": ""
+    },
+    {
+      "hash": "48df5ea049c1e0ce5c262cf2e5545a61",
+      "parameter": "-r DeepDETAILS",
+      "software": "rm",
+      "step_order": 5,
+      "version_check": ""
+    }
+  ],
+  "ver": "b32df10e56b21fa9e37f997a599b347e"
+}

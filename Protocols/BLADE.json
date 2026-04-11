@@ -2,6 +2,7 @@
     "description": "Run BLADE deconvolution. This protocol takes three input files: 1) single-cell reference, 2) the bulk mixtures, 3) the signature info file, and 4) signature row mapping file",
     "name": "BLADE",
     "reference": {},
+    "id": 342,
     "step": [
         {
             "hash": "b78d3ae40186596ad24110597dc08cce",

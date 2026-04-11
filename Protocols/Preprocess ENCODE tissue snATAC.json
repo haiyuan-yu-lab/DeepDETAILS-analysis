@@ -1,72 +1,72 @@
 {
-    "description": "Pull fragments file from ENCODE server and call accessibility peaks by treating the library as a pseudo-bulk",
-    "name": "Preprocess ENCODE tissue snATAC",
-    "reference": {},
-    "id": 387,
-    "step": [
-        {
-            "hash": "fc20b55abedbbbb0b08d5126e2ffac0c",
-            "parameter": "{{Workspace}}/tmp",
-            "software": "mkdir",
-            "step_order": 1,
-            "version_check": ""
-        },
-        {
-            "hash": "68f678499aa6c43e6626b39f0a636b62",
-            "parameter": "-qO raw.tar.gz {{InputFile}}",
-            "software": "wget",
-            "step_order": 2,
-            "version_check": ""
-        },
-        {
-            "hash": "85a48439adfffb4a744b4101fdac1618",
-            "parameter": "--strip-components=4 -zxf raw.tar.gz",
-            "software": "tar",
-            "step_order": 3,
-            "version_check": ""
-        },
-        {
-            "hash": "6eea243fbb662d1bccaecb1b6ab8e717",
-            "parameter": "zcat fragments.tsv.gz | sed '/^#/d' | awk -v OFS='\\t' '{mid=int(($2+$3)/2); print $1,$2,mid,\"N\",1000,\"+\"; print $1,mid+1,$3,\"N\",1000,\"-\"}' | sort -k 1,1V -k 2,2n -k3,3n --parallel 5 | bgzip -c > tagAlign.gz",
-            "software": "LC_ALL=C",
-            "step_order": 4,
-            "version_check": ""
-        },
-        {
-            "hash": "54b78dc73b77c8c43fd1d800301be2f8",
-            "parameter": "-p bed tagAlign.gz",
-            "software": "tabix",
-            "step_order": 5,
-            "version_check": ""
-        },
-        {
-            "hash": "41fb02918dcdc81c21e8dd43a41bf4e9",
-            "parameter": "callpeak -f BED -g hs -q 0.01 -n macs2 --shift -75 --extsize 150 --nomodel --keep-dup all --outdir atacPeaks -t tagAlign.gz",
-            "software": "macs2",
-            "step_order": 6,
-            "version_check": ""
-        },
-        {
-            "hash": "1f833208887eb6ec85e7f5250fda75ce",
-            "parameter": "raw.tar.gz",
-            "software": "rm",
-            "step_order": 7,
-            "version_check": ""
-        },
-        {
-            "hash": "e7f378398dc693e88965f4572546475b",
-            "parameter": "tagAlign.gz",
-            "software": "rm",
-            "step_order": 8,
-            "version_check": ""
-        },
-        {
-            "hash": "82c749a8f5bf7c1a09a2c27cb93267c7",
-            "parameter": "-rf tmp",
-            "software": "rm",
-            "step_order": 9,
-            "version_check": ""
-        }
-    ],
-    "ver": "9fa85b002c1d3bdd8f2db557a03aa409"
+  "description": "Pull fragments file from ENCODE server and call accessibility peaks by treating the library as a pseudo-bulk",
+  "name": "Preprocess ENCODE tissue snATAC",
+  "reference": {},
+  "id": 387,
+  "step": [
+    {
+      "hash": "fc20b55abedbbbb0b08d5126e2ffac0c",
+      "parameter": "{{Workspace}}/tmp",
+      "software": "mkdir",
+      "step_order": 1,
+      "version_check": ""
+    },
+    {
+      "hash": "68f678499aa6c43e6626b39f0a636b62",
+      "parameter": "-qO raw.tar.gz {{InputFile}}",
+      "software": "wget",
+      "step_order": 2,
+      "version_check": ""
+    },
+    {
+      "hash": "85a48439adfffb4a744b4101fdac1618",
+      "parameter": "--strip-components=4 -zxf raw.tar.gz",
+      "software": "tar",
+      "step_order": 3,
+      "version_check": ""
+    },
+    {
+      "hash": "c555a1a8ba57f4cd454b3e6f1221e5bd",
+      "parameter": "zcat fragments.tsv.gz | sed '/^#/d' | awk -v OFS='\\t' '{mid=int(($2+$3)/2); print $1,$2,mid,\"N\",1000,\"+\"; print $1,mid+1,$3,\"N\",1000,\"-\"}' | sort -k 1,1V -k 2,2n -k3,3n --parallel 5 | bgzip -c > tagAlign.gz",
+      "software": "LC_ALL=C",
+      "step_order": 4,
+      "version_check": ""
+    },
+    {
+      "hash": "54b78dc73b77c8c43fd1d800301be2f8",
+      "parameter": "-p bed tagAlign.gz",
+      "software": "tabix",
+      "step_order": 5,
+      "version_check": ""
+    },
+    {
+      "hash": "e77745ba73097e967ac50a283c039f78",
+      "parameter": "callpeak -f BED -g hs -q 0.01 -n macs2 --shift -75 --extsize 150 --nomodel --keep-dup all --outdir atacPeaks -t tagAlign.gz",
+      "software": "macs2",
+      "step_order": 6,
+      "version_check": ""
+    },
+    {
+      "hash": "1f833208887eb6ec85e7f5250fda75ce",
+      "parameter": "raw.tar.gz",
+      "software": "rm",
+      "step_order": 7,
+      "version_check": ""
+    },
+    {
+      "hash": "e7f378398dc693e88965f4572546475b",
+      "parameter": "tagAlign.gz",
+      "software": "rm",
+      "step_order": 8,
+      "version_check": ""
+    },
+    {
+      "hash": "82c749a8f5bf7c1a09a2c27cb93267c7",
+      "parameter": "-rf tmp",
+      "software": "rm",
+      "step_order": 9,
+      "version_check": ""
+    }
+  ],
+  "ver": "9fa85b002c1d3bdd8f2db557a03aa409"
 }

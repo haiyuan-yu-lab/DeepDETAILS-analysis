@@ -6,7 +6,7 @@ import numpy as np
 from typing import Union
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from captum.attr import IntegratedGradients, InputXGradient, Saliency, DeepLiftShap
+from captum.attr import InputXGradient
 from pythonase.print_functions import message_with_time
 from deepdetails.model.wrapper import DeepDETAILS
 from deepdetails.data import SequenceSignalDataset

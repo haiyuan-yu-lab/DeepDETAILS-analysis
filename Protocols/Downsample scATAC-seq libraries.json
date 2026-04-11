@@ -1,0 +1,16 @@
+{
+    "description": "Hierarchical downsampling for scATAC-seq libraries",
+    "name": "Downsample scATAC-seq libraries",
+    "reference": {},
+    "id": 314,
+    "step": [
+        {
+            "hash": "01970ac2d8adea6d8a4e5f5d8cb389ab",
+            "parameter": "{{UserBin}}/pipeline-helpers/downsampling/downsample_sc_libs.py -f {{InputFile}} -o {{OutputPrefixes}} -c {{CellBarcodes}} -n {{CellsPerSample}} -m {{MeanFragsPerCell}} -s {{StdFragsPerCell}} -r {{Job}} -p {{Repeats||3}} -x {{ChromSize}} -t 6 --frag-processing {{FragProcessing||encode}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": "git log -n 1 --pretty=format:%H -- {{UserBin}}/pipeline-helpers/downsampling/downsample_sc_libs.py"
+        }
+    ],
+    "ver": "bfa14bcccd097e90b4c27db962f91265"
+}

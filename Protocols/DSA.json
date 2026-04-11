@@ -2,6 +2,7 @@
     "description": "Deconvolution with DSA. Three input files:\n1. bulk mixture, csv file, row: genes/regions, col: samples\n2. CIBERSORTx-style signature file, tsv file\n3. row mapping for the signature and bulk_mixture, csv file.",
     "name": "DSA",
     "reference": {},
+    "id": 343,
     "step": [
         {
             "hash": "c19561311295fdb7d994e0f340138bce",

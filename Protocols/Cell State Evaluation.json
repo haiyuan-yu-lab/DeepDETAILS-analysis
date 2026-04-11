@@ -1,0 +1,44 @@
+{
+    "description": null,
+    "name": "Cell State Evaluation",
+    "reference": {},
+    "id": 410,
+    "step": [
+        {
+            "hash": "afde786919583784693c6762618b897d",
+            "parameter": "-b {{BidirectionalPeaks}} -u {{UnidirectionalPeaks}} -p {{RealPerRepPls}} -m {{RealPerRepMns}} -c {{RealStateLabels}} -r {{RealStateRepId}} -s deg.input.csv -d",
+            "software": "pints_counter",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "f8c228d6470de9fbc66f2d386b013b17",
+            "parameter": "'write.csv(as.data.frame(subset(res[order(res$pvalue),], padj < 0.1)), file=\"deg.csv\")' >> deg.input.csv.r",
+            "software": "echo",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "e2990eb0725ff6f38da8b36f04043e4c",
+            "parameter": "--vanilla deg.input.csv.r",
+            "software": "Rscript",
+            "step_order": 4,
+            "version_check": ""
+        },
+        {
+            "hash": "a092f010f401731571762b21503b8f3c",
+            "parameter": "-b {{BidirectionalPeaks}} -u {{UnidirectionalPeaks}} -p {{DecPerRunPls}} -m {{DecPerRunMns}} -c {{DecStateLabels}} -r {{DecStateRepId}} -s dec.counts.csv",
+            "software": "pints_counter",
+            "step_order": 5,
+            "version_check": ""
+        },
+        {
+            "hash": "acb63a54046cebf21cd67d184ea198f0",
+            "parameter": "{{UserBin}}/pipeline-helpers/evaluation/state_eva_helper.py --real-counts deg.input.csv --dec-counts dec.counts.csv --deg deg.csv --contrast {{Contrast}}",
+            "software": "python",
+            "step_order": 6,
+            "version_check": ""
+        }
+    ],
+    "ver": "fb71b1fedb8aadc73a6e2cafdc45f1a0"
+}

@@ -1,0 +1,16 @@
+{
+    "description": null,
+    "name": "MD5",
+    "reference": {},
+    "id": 433,
+    "step": [
+        {
+            "hash": "431f2cf71172182c1afd95af8adade08",
+            "parameter": "{{InputFile}}",
+            "software": "md5sum",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "93f6079e1c61f8b81037a7c075772cc5"
+}

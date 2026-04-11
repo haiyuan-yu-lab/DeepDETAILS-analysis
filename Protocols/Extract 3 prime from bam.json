@@ -1,0 +1,23 @@
+{
+    "description": null,
+    "name": "Extract 3 prime from bam",
+    "reference": {},
+    "id": 281,
+    "step": [
+        {
+            "hash": "9ac3e1f9d4ce01805995242febcd5803",
+            "parameter": "-b {{InputFile}} -e {{Layout}} -o {{JobName}}",
+            "software": "pints_visualizer",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "b25372e93c8cdf8ba9d3d3247000d241",
+            "parameter": "-b {{InputFile}} -e {{Layout}} -o {{JobName}}_rpm --rpm",
+            "software": "pints_visualizer",
+            "step_order": 2,
+            "version_check": ""
+        }
+    ],
+    "ver": "72eeba5c1db6125d85abba3941c2277c"
+}

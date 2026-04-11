@@ -1,0 +1,16 @@
+{
+  "description": "Evaluate predictions in the form of counts matrix. This protocol expects the input files to be the predictions in the form of counts matrix, predictions made by different tools should be saved in separated CSV files (with ordinal column names, rows for the regions, and columns for the clusters). Parameters include:\n* RefMat: The reference counts matrix. Rows for the regions, and columns for the clusters. If you have columns for the regions and rows for the clusters, assign `--transpose-ref` switch in the `FlexPar`.\n* Labels: Label for the source of each prediction file. Note: if you want to use Latex-symbols in labels, make sure you escape special characters like \"$\", \"\\\", etc. For example, if you want to use \"$\\nu$-SVM\", type \"\\$\\\\nu\\$-SVM\" instead.\n* ChromSize: The script realigns the input regions by their center points with a tiny amount of extension. So it needs a chromosome size file to make sure all regions will be contained within valid chromosomal ranges.",
+  "name": "Evaluate predictions in the form of counts matrix",
+  "reference": {},
+  "id": 331,
+  "step": [
+    {
+      "hash": "3f5f974aababb829f5bc95fc0182af9c",
+      "parameter": "{{UserBin}}/Software/Analysis/pipeline-helpers/evaluation/counts_matrices.py -r {{RefMat}} -p {{InputFile}} -l {{Labels}} -o {{JobName}} -c {{ChromSize||{{CellRangerATAC2020ChromSize}}}} {{FlexPar}}",
+      "software": "python",
+      "step_order": 1,
+      "version_check": ""
+    }
+  ],
+  "ver": "ad2ca77f05db6853e8ee692a319eaad8"
+}

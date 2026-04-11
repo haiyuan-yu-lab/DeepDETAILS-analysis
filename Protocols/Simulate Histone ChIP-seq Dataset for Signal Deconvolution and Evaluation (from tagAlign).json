@@ -1,37 +1,37 @@
 {
-    "description": "Build dataset for training models and evaluating its performance (signal tracks will be generated from ENCODE-style tagAlign files).",
-    "name": "Simulate Histone ChIP-seq Dataset for Signal Deconvolution and Evaluation (from tagAlign)",
-    "reference": {},
-    "id": 329,
-    "step": [
-        {
-            "hash": "0957cba551171f16c6b4eacc106e3a8a",
-            "parameter": "{{UserBin}}/pipeline-helpers/downsampling/build_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --raw-frags {{RawTags}} --raw-control-frags {{RawControlTags}} --macs2-fraglen {{FragmentLength}} --sc-atac {{InputFile}} --total-counts {{TotalCounts||31000000}} --total-cells {{TotalCells}} --contrib-ratio {{ContRatio||1}} --mean-frags-per-cell {{MeanFragsCell||10000}} --std-frags-per-cell {{StdFragsCell||833}} --cell-barcodes {{CellBarcodes}} --frag-processing {{AtacFragProcessing||encode}} -r {{RandomSeed||1234567}} --background-sampling-ratio {{BgSampRatio||0.}} --window-size {{WindowSize||2114}} --background-blacklist {{BgBlock||{{BlackListHG38}}}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{CellRangerATAC2020ChromSize}}}} --raw-format {{RawFormat||tagAlign}} --macs2-exec {{Macs2Exec||{{Macs2Path}}}} --macs2-gs {{EffectiveGenomeSize||hs}} {{Macs2Pval||--macs2-pval 0.01}} --wiggletools {{WigTool||{{WiggleTools}}}} --wig2bw {{W2B||wigToBigWig}} {{FlexPars}}",
-            "software": "python",
-            "step_order": 1,
-            "version_check": ""
-        },
-        {
-            "hash": "3b015e879a077600ec831041b1293e74",
-            "parameter": "pybedtools*.tmp || true",
-            "software": "rm",
-            "step_order": 2,
-            "version_check": ""
-        },
-        {
-            "hash": "fdebb5128e0e5c9e5f3b5b20a75c4d91",
-            "parameter": "-v \"#\" regions.csv | awk 'BEGIN{FS=\",\";OFS=\"\\t\"}{if($4==1)print $1,$2,$3,NR,$5}' > pos_regions.bed",
-            "software": "grep",
-            "step_order": 3,
-            "version_check": ""
-        },
-        {
-            "hash": "c285aedafe3aaa9798771837b473825b",
-            "parameter": "*.cs.bed || true",
-            "software": "rm",
-            "step_order": 4,
-            "version_check": ""
-        }
-    ],
-    "ver": "9a647880e67c60b390473ff1749c28bb"
+  "description": "Build dataset for training models and evaluating its performance (signal tracks will be generated from ENCODE-style tagAlign files).",
+  "name": "Simulate Histone ChIP-seq Dataset for Signal Deconvolution and Evaluation (from tagAlign)",
+  "reference": {},
+  "id": 329,
+  "step": [
+    {
+      "hash": "7cb1eae84f5c042e2f721e0abeb21797",
+      "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/downsampling/build_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --raw-frags {{RawTags}} --raw-control-frags {{RawControlTags}} --macs2-fraglen {{FragmentLength}} --sc-atac {{InputFile}} --total-counts {{TotalCounts||31000000}} --total-cells {{TotalCells}} --contrib-ratio {{ContRatio||1}} --mean-frags-per-cell {{MeanFragsCell||10000}} --std-frags-per-cell {{StdFragsCell||833}} --cell-barcodes {{CellBarcodes}} --frag-processing {{AtacFragProcessing||encode}} -r {{RandomSeed||1234567}} --background-sampling-ratio {{BgSampRatio||0.}} --window-size {{WindowSize||2114}} --background-blacklist {{BgBlock||{{BlackListHG38}}}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{CellRangerATAC2020ChromSize}}}} --raw-format {{RawFormat||tagAlign}} --macs2-exec {{Macs2Exec||{{Macs2Path}}}} --macs2-gs {{EffectiveGenomeSize||hs}} {{Macs2Pval||--macs2-pval 0.01}} --wiggletools {{WigTool||{{WiggleTools}}}} --wig2bw {{W2B||wigToBigWig}} {{FlexPars}}",
+      "software": "python",
+      "step_order": 1,
+      "version_check": ""
+    },
+    {
+      "hash": "3b015e879a077600ec831041b1293e74",
+      "parameter": "pybedtools*.tmp || true",
+      "software": "rm",
+      "step_order": 2,
+      "version_check": ""
+    },
+    {
+      "hash": "fdebb5128e0e5c9e5f3b5b20a75c4d91",
+      "parameter": "-v \"#\" regions.csv | awk 'BEGIN{FS=\",\";OFS=\"\\t\"}{if($4==1)print $1,$2,$3,NR,$5}' > pos_regions.bed",
+      "software": "grep",
+      "step_order": 3,
+      "version_check": ""
+    },
+    {
+      "hash": "c285aedafe3aaa9798771837b473825b",
+      "parameter": "*.cs.bed || true",
+      "software": "rm",
+      "step_order": 4,
+      "version_check": ""
+    }
+  ],
+  "ver": "9a647880e67c60b390473ff1749c28bb"
 }

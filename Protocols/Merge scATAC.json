@@ -1,0 +1,16 @@
+{
+    "description": "Merge scATAC-seq libraries",
+    "name": "Merge scATAC",
+    "reference": {},
+    "id": 394,
+    "step": [
+        {
+            "hash": "e3550cde5a5aeba5a92231270e64fd4b",
+            "parameter": "{{UserBin}}/pipeline-helpers/downsampling/combine_scatac.py -f {{InputFile}} -b {{InBarcodes}} --save-to {{Workspace}}",
+            "software": "python",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "e6203a83e8bb91e041e97790f483b431"
+}

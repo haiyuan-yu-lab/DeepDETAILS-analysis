@@ -1,90 +1,90 @@
 {
-    "description": null,
-    "name": "DeepDETAILS portal job",
-    "reference": {
-        "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)",
-        "GenomeWide4T1Regions": "Genome-wide 4096bp windows, step size=1000bp",
-        "HG38_PRIMARY_FA": "Primary assemblies of human reference genome GRCh38+chrM+EBV."
+  "description": null,
+  "name": "DeepDETAILS portal job",
+  "reference": {
+    "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)",
+    "GenomeWide4T1Regions": "Genome-wide 4096bp windows, step size=1000bp",
+    "HG38_PRIMARY_FA": "Primary assemblies of human reference genome GRCh38+chrM+EBV."
+  },
+  "id": 397,
+  "step": [
+    {
+      "hash": "0fcd0fb25e34909f23d78cd15a26d58e",
+      "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/DeepDETAILS .",
+      "software": "cp",
+      "step_order": 1,
+      "version_check": ""
     },
-    "id": 397,
-    "step": [
-        {
-            "hash": "847387ba4fe4dfa6329dd123530ca9a5",
-            "parameter": "clone git@git.yaobio.com:RunOnDeconvolution/main.git",
-            "software": "git",
-            "step_order": 1,
-            "version_check": ""
-        },
-        {
-            "hash": "66ba67134b3a092e388b577c26683334",
-            "parameter": "main/src && git checkout {{commit}}",
-            "software": "cd",
-            "step_order": 2,
-            "version_check": ""
-        },
-        {
-            "hash": "fbb6e96b828a0774da65bb20f00f49cc",
-            "parameter": "-s {{InputFile}} data",
-            "software": "ln",
-            "step_order": 3,
-            "version_check": ""
-        },
-        {
-            "hash": "9c64b81daa6540dfec9fcaaa3c1c9867",
-            "parameter": "PYTHONPATH={{Workspace}}/main/src:$PYTHONPATH && src/deepdetails/cli.py deconv --dataset ./data --save-to log_r1 --study-name {{JobName}}-r1 -v {{Workspace}}-r1 --devices 0 {{FlexParTraining||--hide-progress-bar}}",
-            "software": "export",
-            "step_order": 4,
-            "version_check": ""
-        },
-        {
-            "hash": "c50fc9051a5624ef43c65d9c9bac533d",
-            "parameter": "PYTHONPATH={{Workspace}}/main/src:$PYTHONPATH && src/deepdetails/cli.py deconv --dataset ./data --save-to log_r2 --study-name {{JobName}}-r2 -v {{Workspace}}-r2 --devices 0 {{FlexParTraining||--hide-progress-bar}}",
-            "software": "export",
-            "step_order": 5,
-            "version_check": ""
-        },
-        {
-            "hash": "791d0ff41c05d197c12b18aee1920070",
-            "parameter": "acc_string=$(awk -F, '{print $1}' .data/scatac.norm.csv | awk -v prefix=\"$prefix\" -v suffix=\"$suffix\" '{printf \"%s%s%s \", prefix, $1, suffix}' | sed 's/ $//')\ncluster_names=$(awk -F, '{print $1}' .data/scatac.norm.csv | paste -sd ' ' -)\nfolder=\"./log_r1/{{JobName}}-r1/\";\nexpected_model_file=$(find \"$folder\" -maxdepth 2 -type f -name \"*.ckpt\" | sort -r | head -n 1);\nexport PYTHONPATH={{Workspace}}/main/src:$PYTHONPATH\npython deepdetails/src/cli.py export-gw-pred -m $expected_model_file --genome-fa {{HG38_PRIMARY_FA}} --regions-file {{GenomeWide4T1Regions}} --bulk-pl ./data/out.pl.bw --bulk-mn ./data/out.mn.bw --accessibility ${acc_string} --sc-norm ./data/scatac.norm.csv --ref-labels ${cluster_names} --study-name {{JobName}}-r1 {{FlexParExporting}}",
-            "software": "__SHELL__",
-            "step_order": 6,
-            "version_check": ""
-        },
-        {
-            "hash": "66414f8f6c3564bab744c4e2a2cf32b2",
-            "parameter": "acc_string=$(awk -F, '{print $1}' .data/scatac.norm.csv | awk -v prefix=\"$prefix\" -v suffix=\"$suffix\" '{printf \"%s%s%s \", prefix, $1, suffix}' | sed 's/ $//')\ncluster_names=$(awk -F, '{print $1}' .data/scatac.norm.csv | paste -sd ' ' -)\nfolder=\"./log_r2/{{JobName}}-r2/\";\nexpected_model_file=$(find \"$folder\" -maxdepth 2 -type f -name \"*.ckpt\" | sort -r | head -n 1);\nexport PYTHONPATH={{Workspace}}/main/src:$PYTHONPATH\npython deepdetails/src/cli.py export-gw-pred -m $expected_model_file --genome-fa {{HG38_PRIMARY_FA}} --regions-file {{GenomeWide4T1Regions}} --bulk-pl ./data/out.pl.bw --bulk-mn ./data/out.mn.bw --accessibility ${acc_string} --sc-norm ./data/scatac.norm.csv --ref-labels ${cluster_names} --study-name {{JobName}}-r2 {{FlexParExporting}}",
-            "software": "__SHELL__",
-            "step_order": 7,
-            "version_check": ""
-        },
-        {
-            "hash": "d0fe22c2db0f35662e515bc0eb242a9b",
-            "parameter": "PYTHONPATH={{Workspace}}/main/src:$PYTHONPATH && python deepdetails/src/cli.py merge-preds --pred-dir . --save-to {{JobName}}.merged.predictions.h5 --quiet {{FlexParMerging}}",
-            "software": "export",
-            "step_order": 8,
-            "version_check": ""
-        },
-        {
-            "hash": "389dd17ee4a8b5309c3bec08de585bec",
-            "parameter": "PYTHONPATH={{Workspace}}/main/src:$PYTHONPATH && python deepdetails/src/cli.py build-bw -p *predictions.h5 --chrom-size {{CellRangerATAC2020ChromSize}} --fast {{FlexParBw||--out-binning 10}}",
-            "software": "export",
-            "step_order": 9,
-            "version_check": ""
-        },
-        {
-            "hash": "94bb62e301b96c4a353e0a50fea1be46",
-            "parameter": "-rf main",
-            "software": "rm",
-            "step_order": 10,
-            "version_check": ""
-        },
-        {
-            "hash": "db222585ce7acd45474bcadac74c017a",
-            "parameter": "{{Workspace}} -mindepth 1 -maxdepth 1 -type d -exec rm -r {} +",
-            "software": "find",
-            "step_order": 11,
-            "version_check": ""
-        }
-    ],
-    "ver": "6096e8c49beab959632be2581c62a34b"
+    {
+      "hash": "52d6f06f73819c1e42cb25b4100e0d20",
+      "parameter": "DeepDETAILS/src && git checkout {{commit}}",
+      "software": "cd",
+      "step_order": 2,
+      "version_check": ""
+    },
+    {
+      "hash": "fbb6e96b828a0774da65bb20f00f49cc",
+      "parameter": "-s {{InputFile}} data",
+      "software": "ln",
+      "step_order": 3,
+      "version_check": ""
+    },
+    {
+      "hash": "7b6926df9ac3353a5395ad7573747050",
+      "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python DeepDETAILS/src/deepdetails/cli.py deconv --dataset ./data --save-to log_r1 --study-name {{JobName}}-r1 -v {{Workspace}}-r1 --devices 0 {{FlexParTraining||--hide-progress-bar}}",
+      "software": "export",
+      "step_order": 4,
+      "version_check": ""
+    },
+    {
+      "hash": "fa83edd7fc63641926d08df4b7c5c353",
+      "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python DeepDETAILS/src/deepdetails/cli.py deconv --dataset ./data --save-to log_r2 --study-name {{JobName}}-r2 -v {{Workspace}}-r2 --devices 0 {{FlexParTraining||--hide-progress-bar}}",
+      "software": "export",
+      "step_order": 5,
+      "version_check": ""
+    },
+    {
+      "hash": "77b069f4a3f11007ea6141c3619f038d",
+      "parameter": "acc_string=$(awk -F, '{print $1}' .data/scatac.norm.csv | awk -v prefix=\"$prefix\" -v suffix=\"$suffix\" '{printf \"%s%s%s \", prefix, $1, suffix}' | sed 's/ $//')\ncluster_names=$(awk -F, '{print $1}' .data/scatac.norm.csv | paste -sd ' ' -)\nfolder=\"./log_r1/{{JobName}}-r1/\";\nexpected_model_file=$(find \"$folder\" -maxdepth 2 -type f -name \"*.ckpt\" | sort -r | head -n 1);\nexport PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH\npython DeepDETAILS/src/deepdetails/cli.py export-gw-pred -m $expected_model_file --genome-fa {{HG38_PRIMARY_FA}} --regions-file {{GenomeWide4T1Regions}} --bulk-pl ./data/out.pl.bw --bulk-mn ./data/out.mn.bw --accessibility ${acc_string} --sc-norm ./data/scatac.norm.csv --ref-labels ${cluster_names} --study-name {{JobName}}-r1 {{FlexParExporting}}",
+      "software": "__SHELL__",
+      "step_order": 6,
+      "version_check": ""
+    },
+    {
+      "hash": "f65fa1b736599c1aba6f6f9c734b25c6",
+      "parameter": "acc_string=$(awk -F, '{print $1}' .data/scatac.norm.csv | awk -v prefix=\"$prefix\" -v suffix=\"$suffix\" '{printf \"%s%s%s \", prefix, $1, suffix}' | sed 's/ $//')\ncluster_names=$(awk -F, '{print $1}' .data/scatac.norm.csv | paste -sd ' ' -)\nfolder=\"./log_r2/{{JobName}}-r2/\";\nexpected_model_file=$(find \"$folder\" -maxdepth 2 -type f -name \"*.ckpt\" | sort -r | head -n 1);\nexport PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH\npython DeepDETAILS/src/deepdetails/cli.py export-gw-pred -m $expected_model_file --genome-fa {{HG38_PRIMARY_FA}} --regions-file {{GenomeWide4T1Regions}} --bulk-pl ./data/out.pl.bw --bulk-mn ./data/out.mn.bw --accessibility ${acc_string} --sc-norm ./data/scatac.norm.csv --ref-labels ${cluster_names} --study-name {{JobName}}-r2 {{FlexParExporting}}",
+      "software": "__SHELL__",
+      "step_order": 7,
+      "version_check": ""
+    },
+    {
+      "hash": "b4b1db757857360cf2292e95820bea8c",
+      "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python DeepDETAILS/src/deepdetails/cli.py merge-preds --pred-dir . --save-to {{JobName}}.merged.predictions.h5 --quiet {{FlexParMerging}}",
+      "software": "export",
+      "step_order": 8,
+      "version_check": ""
+    },
+    {
+      "hash": "36d33b3a6fe22e403097682ae4f4bf52",
+      "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python DeepDETAILS/src/deepdetails/cli.py build-bw -p *predictions.h5 --chrom-size {{CellRangerATAC2020ChromSize}} --fast {{FlexParBw||--out-binning 10}}",
+      "software": "export",
+      "step_order": 9,
+      "version_check": ""
+    },
+    {
+      "hash": "64305a7940312b899b7f133b969cc41d",
+      "parameter": "-rf DeepDETAILS",
+      "software": "rm",
+      "step_order": 10,
+      "version_check": ""
+    },
+    {
+      "hash": "db222585ce7acd45474bcadac74c017a",
+      "parameter": "{{Workspace}} -mindepth 1 -maxdepth 1 -type d -exec rm -r {} +",
+      "software": "find",
+      "step_order": 11,
+      "version_check": ""
+    }
+  ],
+  "ver": "6096e8c49beab959632be2581c62a34b"
 }

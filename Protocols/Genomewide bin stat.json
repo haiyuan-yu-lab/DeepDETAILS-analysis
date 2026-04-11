@@ -1,0 +1,37 @@
+{
+    "description": "Generate genomewide counts stats in bins\nInputFile: space-separated list of input bam files\nLabels: space-separated list of labels for each bam file\nBinSize: size of genomic bins\nProcs: Number of processors to use. \nFlexParSummary: Other options for multiBamSummary. By default, we exclude bins overlap with blacklist regions.",
+    "name": "Genomewide bin stat",
+    "reference": {},
+    "id": 352,
+    "step": [
+        {
+            "hash": "c3c9776a8fa878c224c95d5b09913c48",
+            "parameter": "bins --bamfiles {{InputFile}} -o {{JobName}}.npz --labels {{Labels}} --binSize {{BinSize}} --numberOfProcessors {{Procs||16}} --outRawCounts {{JobName}}.tab {{FlexParSummary||--blackListFileName {{BlackListHG38}}}}",
+            "software": "multiBamSummary",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "0543d74cd48a239b93470e1d333ab25f",
+            "parameter": "-n +2 {{JobName}}.tab | cut -f 1-3 | gzip > {{JobName}}.bed.gz",
+            "software": "tail",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "bcbbdbfa78c9a87827cd52ecc708571f",
+            "parameter": "cut -f 4- {{JobName}}.tab | gzip > {{JobName}}.tsv.gz",
+            "software": "cut",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "e10e780fcb04809c21e4d1d0ca67b4dd",
+            "parameter": "{{JobName}}.tab",
+            "software": "rm",
+            "step_order": 4,
+            "version_check": ""
+        }
+    ],
+    "ver": "eaaa3cc12d871d6ab56914e646c05feb"
+}

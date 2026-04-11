@@ -1,0 +1,16 @@
+{
+    "description": "Call accessible regions from a sc/snATAC-seq library with MACS2. Input should be the fragment file.\n\nParameter from https://github.com/GreenleafLab/ArchR/blob/d9e741c980c7c64e5348c97a74d146cc95f8ba76/R/ReproduciblePeakSet.R#L751-L800",
+    "name": "MACS2 for sc/snATAC",
+    "reference": {},
+    "id": 372,
+    "step": [
+        {
+            "hash": "21a151aa6ffc18738090bf06754d70e0",
+            "parameter": "callpeak -t {{InputFile}} -f BED -n {{JobName}} --nomodel --nolambda --shift -75 --extsize 150 -q 0.05 -g hs",
+            "software": "macs2",
+            "step_order": 1,
+            "version_check": ""
+        }
+    ],
+    "ver": "468ac9559ebcde8e3fd5fe3da9b975fc"
+}

@@ -5,23 +5,23 @@
     "id": 317,
     "step": [
         {
-            "hash": "5f5a5ebe1f0c335ecd5b7393d280affd",
-            "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/main .",
+            "hash": "0fcd0fb25e34909f23d78cd15a26d58e",
+            "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/DeepDETAILS .",
             "software": "cp",
             "step_order": 1,
             "version_check": ""
         },
         {
-            "hash": "66ba67134b3a092e388b577c26683334",
-            "parameter": "main/src && git checkout {{commit}}",
+            "hash": "52d6f06f73819c1e42cb25b4100e0d20",
+            "parameter": "DeepDETAILS/src && git checkout {{commit}}",
             "software": "cd",
             "step_order": 2,
             "version_check": ""
         },
         {
-            "hash": "806ce49ee26d48e60863a7c21cb072ef",
-            "parameter": "{{UserBin}}/pipeline-helpers/evaluation/mult_runs.py {{Workspace}} --checkpoints {{InputFile}} --root {{Dataset}} --cv {{Validation||chr22}} --ct {{Test||chr19}} --batch-size {{BatchSize||32}} --local-logdir {{Workspace}}/logs {{FlexPar||--hide-progress-bar --pos-only}}",
-            "software": "python",
+            "hash": "cc647143253c9335a535d55c8f635f09",
+            "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python {{UserBin}}/Analysis/Software/pipeline-helpers/evaluation/mult_runs.py {{Workspace}} --checkpoints {{InputFile}} --root {{Dataset}} --cv {{Validation||chr22}} --ct {{Test||chr19}} --batch-size {{BatchSize||32}} --local-logdir {{Workspace}}/logs {{FlexPar||--hide-progress-bar --pos-only}}",
+            "software": "export",
             "step_order": 3,
             "version_check": ""
         }

@@ -1,0 +1,81 @@
+{
+    "description": null,
+    "name": "Runon Processing from Replicated BWs",
+    "reference": {
+        "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)"
+    },
+    "id": 429,
+    "step": [
+        {
+            "hash": "1829a65abe2f5e22baa6db9f2f399f75",
+            "parameter": "-O r1.pl.bw {{InputFile:1}}",
+            "software": "wget",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "df2a2531e378872434ca89de028f8827",
+            "parameter": "-O r1.mn.bw {{InputFile:2}}",
+            "software": "wget",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "9ce4c23f98a1779e99e12c8395716685",
+            "parameter": "-O r2.pl.bw {{InputFile:3}}",
+            "software": "wget",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "7b7d42ad5d20b58a20d3a7f759779f5f",
+            "parameter": "-O r2.mn.bw {{InputFile:4}}",
+            "software": "wget",
+            "step_order": 4,
+            "version_check": ""
+        },
+        {
+            "hash": "efe2b179ced7a276baa842c967b71cd3",
+            "parameter": "sum r1.pl.bw r2.pl.bw > merged.pl.wig",
+            "software": "wiggletools",
+            "step_order": 5,
+            "version_check": ""
+        },
+        {
+            "hash": "844a51d17d52690228cbf0fbe2dd176f",
+            "parameter": "sum r1.mn.bw r2.mn.bw > merged.mn.wig",
+            "software": "wiggletools",
+            "step_order": 6,
+            "version_check": ""
+        },
+        {
+            "hash": "8a4a571c9024e5d092fca4e59a9e8380",
+            "parameter": "merged.pl.wig {{CellRangerATAC2020ChromSize}} {{JobName}}_merged_pl.bw",
+            "software": "wigToBigWig",
+            "step_order": 7,
+            "version_check": ""
+        },
+        {
+            "hash": "5319a570f3aa2fd1061613a446fad342",
+            "parameter": "merged.mn.wig {{CellRangerATAC2020ChromSize}} {{JobName}}_merged_mn.bw",
+            "software": "wigToBigWig",
+            "step_order": 8,
+            "version_check": ""
+        },
+        {
+            "hash": "28dd4460d0bdb8aba041eb11e69d5151",
+            "parameter": "--bw-pl {{JobName}}_merged_pl.bw --bw-mn {{JobName}}_merged_mn.bw --save-to . --file-prefix {{JobName}} --thread 16 --fdr-target {{FDR||0.3}}",
+            "software": "pints_caller",
+            "step_order": 9,
+            "version_check": ""
+        },
+        {
+            "hash": "3f3583661ad7ec021f619ab7a8bd8f29",
+            "parameter": "*.wig",
+            "software": "rm",
+            "step_order": 10,
+            "version_check": ""
+        }
+    ],
+    "ver": "c1cffd0f9468dc37cb19099a5b4f3e35"
+}

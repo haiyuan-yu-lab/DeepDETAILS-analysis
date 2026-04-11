@@ -1,74 +1,81 @@
 {
-    "description": "Run preflight in simulated cases",
-    "name": "Preflight experiment",
-    "reference": {
-        "Macs2Path": "MACS v2.2.4"
+  "description": "Run preflight in simulated cases",
+  "name": "Preflight experiment",
+  "reference": {
+    "Macs2Path": "MACS v2.2.4"
+  },
+  "id": 376,
+  "step": [
+    {
+      "hash": "439ff4f5cc3b28d26ac1510f09e32bb9",
+      "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/pipeline-helpers .",
+      "software": "cp",
+      "step_order": 1,
+      "version_check": ""
     },
-    "id": 376,
-    "step": [
-        {
-            "hash": "439ff4f5cc3b28d26ac1510f09e32bb9",
-            "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/pipeline-helpers .",
-            "software": "cp",
-            "step_order": 1,
-            "version_check": ""
-        },
-        {
-            "hash": "5f5a5ebe1f0c335ecd5b7393d280affd",
-            "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/main .",
-            "software": "cp",
-            "step_order": 2,
-            "version_check": ""
-        },
-        {
-            "hash": "66ba67134b3a092e388b577c26683334",
-            "parameter": "main/src && git checkout {{commit}}",
-            "software": "cd",
-            "step_order": 3,
-            "version_check": ""
-        },
-        {
-            "hash": "05e65ec38461229747e150b1b003799f",
-            "parameter": "-s {{Workspace}}/main/src/details {{Workspace}}/pipeline-helpers/downsampling/",
-            "software": "ln",
-            "step_order": 4,
-            "version_check": ""
-        },
-        {
-            "hash": "3bf3ea18ff3e67139380b245cb2744b3",
-            "parameter": "PYTHONPATH={{Workspace}}/main/src:$PYTHONPATH && python {{Workspace}}/pipeline-helpers/downsampling/preflight.py --sample-labels {{SampleLabels}} --raw-frags {{InputFile}} --bulk-pl {{BulkPl}} --bulk-mn {{BulkMn}} --macs2-exec {{Macs2Path}} {{FlexPars}}",
-            "software": "export",
-            "step_order": 5,
-            "version_check": ""
-        },
-        {
-            "hash": "94bb62e301b96c4a353e0a50fea1be46",
-            "parameter": "-rf main",
-            "software": "rm",
-            "step_order": 6,
-            "version_check": ""
-        },
-        {
-            "hash": "1514f8f4a6a113df1b2bc6492818a428",
-            "parameter": "-rf pipeline-helpers",
-            "software": "rm",
-            "step_order": 7,
-            "version_check": ""
-        },
-        {
-            "hash": "37835772029922a40e0a9955bdf4737b",
-            "parameter": "*.fragments.tsv",
-            "software": "rm",
-            "step_order": 8,
-            "version_check": ""
-        },
-        {
-            "hash": "84c910243076b7b82fda6a1c66645224",
-            "parameter": "-f tagAlign.gz",
-            "software": "rm",
-            "step_order": 9,
-            "version_check": ""
-        }
-    ],
-    "ver": "061f915e924b71bc6927ebc39508dfcb"
+    {
+      "hash": "0fcd0fb25e34909f23d78cd15a26d58e",
+      "parameter": "-r /local/storage/ly349/projects/Deconvolution/Software/DeepDETAILS .",
+      "software": "cp",
+      "step_order": 2,
+      "version_check": ""
+    },
+    {
+      "hash": "52d6f06f73819c1e42cb25b4100e0d20",
+      "parameter": "DeepDETAILS/src && git checkout {{commit}}",
+      "software": "cd",
+      "step_order": 3,
+      "version_check": ""
+    },
+    {
+      "hash": "ac4d41d810dfe8ecf69d99c10cdd7d0c",
+      "parameter": "-s {{Workspace}}/DeepDETAILS/src/deepdetails {{Workspace}}/pipeline-helpers/downsampling/ || true",
+      "software": "ln",
+      "step_order": 4,
+      "version_check": ""
+    },
+    {
+      "hash": "ef36f97a006797358150fe3649248eb4",
+      "parameter": "-s {{Workspace}}/DeepDETAILS/src/details {{Workspace}}/pipeline-helpers/downsampling/ || true",
+      "software": "ln",
+      "step_order": 5,
+      "version_check": ""
+    },
+    {
+      "hash": "fcc5d1e22e9b2a668fcd667fc7102da6",
+      "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python {{Workspace}}/pipeline-helpers/downsampling/preflight.py --sample-labels {{SampleLabels}} --raw-frags {{InputFile}} --bulk-pl {{BulkPl}} --bulk-mn {{BulkMn}} --macs2-exec {{Macs2Path}} {{FlexPars}}",
+      "software": "export",
+      "step_order": 6,
+      "version_check": ""
+    },
+    {
+      "hash": "64305a7940312b899b7f133b969cc41d",
+      "parameter": "-rf DeepDETAILS",
+      "software": "rm",
+      "step_order": 7,
+      "version_check": ""
+    },
+    {
+      "hash": "1514f8f4a6a113df1b2bc6492818a428",
+      "parameter": "-rf pipeline-helpers",
+      "software": "rm",
+      "step_order": 8,
+      "version_check": ""
+    },
+    {
+      "hash": "37835772029922a40e0a9955bdf4737b",
+      "parameter": "*.fragments.tsv",
+      "software": "rm",
+      "step_order": 9,
+      "version_check": ""
+    },
+    {
+      "hash": "84c910243076b7b82fda6a1c66645224",
+      "parameter": "-f tagAlign.gz",
+      "software": "rm",
+      "step_order": 10,
+      "version_check": ""
+    }
+  ],
+  "ver": "061f915e924b71bc6927ebc39508dfcb"
 }

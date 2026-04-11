@@ -2,6 +2,7 @@
     "description": "CIBERSORTx with S-mode batch effect correction.\nInput: Bulk count matrix\nParameters:\n* ReferenceMat: scATAC-seq reference matrix\n* AuthUser: CIBERSORTx username\n* AuthToken: CIBERSORTx token\n* SingleCell: Create a matrix from scRNA-Seq data [default: TRUE]\n* Fraction: Average gene expression threshold (in log2 space) for cells with the same identity/phenotype showing evidence of expression [default: 0.75]\n* MixtureLabels: Deprecated parameter\n* FlexPars:\n* FlexParFractions:\n* FlexParGroupMode:\n* FlexParHiResMode:",
     "name": "CIBERSORTx",
     "reference": {},
+    "id": 336,
     "step": [
         {
             "hash": "2b180791352708cbd8d04b9f3a5a90ac",

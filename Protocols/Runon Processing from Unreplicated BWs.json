@@ -1,0 +1,30 @@
+{
+    "description": null,
+    "name": "Runon Processing from Unreplicated BWs",
+    "reference": {},
+    "id": 430,
+    "step": [
+        {
+            "hash": "93ad4a3b5a2c5b7107542932b2e7fe41",
+            "parameter": "-O {{JobName}}_pl.bw {{InputFile:1}}",
+            "software": "wget",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "c5a10aa4be6ceae7546e3a886ee8669b",
+            "parameter": "-O {{JobName}}_mn.bw {{InputFile:2}}",
+            "software": "wget",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "15f3f3e7e24bafbdba80a00dc4339394",
+            "parameter": "--bw-pl {{JobName}}_pl.bw --bw-mn {{JobName}}_mn.bw --save-to . --file-prefix {{JobName}} --thread 16 --fdr-target {{FDR||0.3}}",
+            "software": "pints_caller",
+            "step_order": 9,
+            "version_check": ""
+        }
+    ],
+    "ver": "d2fb83dd15241ec89be3425e3df546c7"
+}

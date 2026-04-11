@@ -1,0 +1,88 @@
+{
+    "description": "Run dREG on the GPU machines. Three inputs: first two: pl and mn bigwig files; the third, pretrained model. Modified from BioHPC's website:\r\n1. Load the docker image\r\ndocker1 pull biohpc/dreg\r\ndocker1 images\r\n\r\n2. Prepare input data files\r\nAll data files should be put in a directory under /workdir/$USER. For example: /workdir/$USER/mydata\r\n\r\n3. Run command\r\n#set DOCKER command (modify the part \"/workdir/$USER/mydata\" based on your data directory)\r\nexport DREG=\"docker1 run --rm --gpus all -v /workdir/$USER/mydata:/data -w /data biohpc/dreg\"\r\n#run dREG, use 16 cpu cores, and gpu unit 0\r\n$DREG bash /dREG/run_dREG.bsh mysample_plus.bw mysample_end_minus.bw output_prefix model.rdata 16 0\r\n\r\n4. After you are done, get the ownership of the result files (docker run as root, so output files are owned by root)\r\ndocker1 claim /workdir/$USER/mydata",
+    "name": "dREG Docker",
+    "reference": {
+        "dREG_MODEL": "dREG model taken from Wang, Z., Chu, T., Choate, L. A., & Danko, C. G. (2019). Identification of regulatory elements from nascent transcription using dREG. Genome research, 29(2), 293\u2013303. doi:10.1101/gr.238279.118"
+    },
+    "id": 358,
+    "step": [
+        {
+            "hash": "3a23dc252d173206dbf7a29429a5aa98",
+            "parameter": "pull biohpc/dreg",
+            "software": "docker1",
+            "step_order": 1,
+            "version_check": ""
+        },
+        {
+            "hash": "74f5f57068672c0e0301e599af9059d1",
+            "parameter": "/workdir/ly349/{{Job}}",
+            "software": "mkdir",
+            "step_order": 2,
+            "version_check": ""
+        },
+        {
+            "hash": "a07af9f1ef16faf4e91b19d60fb843df",
+            "parameter": "{{InputFile:1}} /workdir/ly349/{{Job}}/pl.bw",
+            "software": "cp",
+            "step_order": 3,
+            "version_check": ""
+        },
+        {
+            "hash": "da2d6b62fe9c3fe7d34f0638d1ea0f9a",
+            "parameter": "{{InputFile:2}} /workdir/ly349/{{Job}}/mn.bw",
+            "software": "cp",
+            "step_order": 4,
+            "version_check": ""
+        },
+        {
+            "hash": "8b0069b3cdcb42a7e078341d0683be7e",
+            "parameter": "{{dREG_MODEL}} /workdir/ly349/{{Job}}/model.rdata",
+            "software": "cp",
+            "step_order": 5,
+            "version_check": ""
+        },
+        {
+            "hash": "708c48d5612004bdc5555725a13888ec",
+            "parameter": "DREG=\"docker1 run --rm --gpus all -v /workdir/ly349/{{Job}}:/data -w /data biohpc/dreg\" && $DREG bash /dREG/run_dREG.bsh pl.bw mn.bw {{JobName}} model.rdata 16 1",
+            "software": "export",
+            "step_order": 6,
+            "version_check": ""
+        },
+        {
+            "hash": "acb0896e040d753b2323ac9fba9ab654",
+            "parameter": "claim /workdir/ly349/{{Job}}",
+            "software": "docker1",
+            "step_order": 7,
+            "version_check": ""
+        },
+        {
+            "hash": "7d5558e6434e3b2ed05b00746f7bacda",
+            "parameter": "/workdir/ly349/{{Job}}/* .",
+            "software": "mv",
+            "step_order": 8,
+            "version_check": ""
+        },
+        {
+            "hash": "ed7c9c976d0d3bf574e32aa49d8056f6",
+            "parameter": "pl.bw",
+            "software": "rm",
+            "step_order": 9,
+            "version_check": ""
+        },
+        {
+            "hash": "73f3496c83a691d8bbefbd6191601eab",
+            "parameter": "mn.bw",
+            "software": "rm",
+            "step_order": 10,
+            "version_check": ""
+        },
+        {
+            "hash": "50b43388916bcc56383b02cf7330ef56",
+            "parameter": "model.rdata",
+            "software": "rm",
+            "step_order": 11,
+            "version_check": ""
+        }
+    ],
+    "ver": "51af7bcabee78144cddcf0fc00da87b6"
+}

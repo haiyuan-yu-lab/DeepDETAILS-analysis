@@ -9,8 +9,8 @@
     "id": 322,
     "step": [
         {
-            "hash": "44bf3bc145c7d84cdbf0a2e20da88742",
-            "parameter": "{{UserBin}}/pipeline-helpers/downsampling/build_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --raw-pl {{RawPls}} --raw-mn {{RawMns}} --sc-atac {{InputFile}} --total-counts {{TotalCounts||31000000}} --total-cells {{TotalCells}} --contrib-ratio {{ContRatio||1}} --mean-frags-per-cell {{MeanFragsCell||10000}} --std-frags-per-cell {{StdFragsCell||833}} --cell-barcodes {{CellBarcodes}} --frag-processing {{FragProcessing||encode}} -r {{RandomSeed||1234567}} --background-sampling-ratio {{BgSampRatio||0.}} --window-size {{WindowSize||2114}} --background-blacklist {{BgBlock||{{BlackListHG38}}}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{HG38ChromSize}}}} --raw-format {{RawFormat||end_bw}} --wiggletools {{WigTool||{{WiggleTools}}}} --wig2bw {{W2B||wigToBigWig}} {{FlexPars}}",
+            "hash": "87fbea8af97968ddb41463440a396108",
+            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/downsampling/build_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --raw-pl {{RawPls}} --raw-mn {{RawMns}} --sc-atac {{InputFile}} --total-counts {{TotalCounts||31000000}} --total-cells {{TotalCells}} --contrib-ratio {{ContRatio||1}} --mean-frags-per-cell {{MeanFragsCell||10000}} --std-frags-per-cell {{StdFragsCell||833}} --cell-barcodes {{CellBarcodes}} --frag-processing {{FragProcessing||encode}} -r {{RandomSeed||1234567}} --background-sampling-ratio {{BgSampRatio||0.}} --window-size {{WindowSize||2114}} --background-blacklist {{BgBlock||{{BlackListHG38}}}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{HG38ChromSize}}}} --raw-format {{RawFormat||end_bw}} --wiggletools {{WigTool||{{WiggleTools}}}} --wig2bw {{W2B||wigToBigWig}} {{FlexPars}}",
             "software": "python",
             "step_order": 1,
             "version_check": ""
