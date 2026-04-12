@@ -5,8 +5,8 @@
   "id": 346,
   "step": [
     {
-      "hash": "8ae9a3d8077e70507876e89f6b638470",
-      "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/downsampling/build_unpaired_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --target-source {{InputFile:1}} --target-name {{TargetDataName}} --accessibility-source {{InputFile:2}} --accessibility-name {{AccessibilityDataName}} --target-sliding-sum {{TargetSlidingSum||0}} --window-size {{WindowSize||4096}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{HG38ChromSize}}}} {{FlexPars}}",
+      "hash": "78e022704d51db54f1207b5ebd97bc62",
+      "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/simulation/build_unpaired_dataset.py -n {{JobName}} --sample-labels {{SampleLabels}} --target-source {{InputFile:1}} --target-name {{TargetDataName}} --accessibility-source {{InputFile:2}} --accessibility-name {{AccessibilityDataName}} --target-sliding-sum {{TargetSlidingSum||0}} --window-size {{WindowSize||4096}} --genome-fa {{GenomeFa||{{HG38_PRIMARY_FA}}}} --chrom-size {{ChromSize||{{HG38ChromSize}}}} {{FlexPars}}",
       "software": "python",
       "step_order": 1,
       "version_check": ""

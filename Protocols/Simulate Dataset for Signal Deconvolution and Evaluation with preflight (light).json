@@ -9,8 +9,8 @@
   "id": 418,
   "step": [
     {
-      "hash": "0ed47040da7b27ee08b18c473a51a7ea",
-      "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/downsampling/brg_dssim_dpds.py -i $(dirname \"{{InputFile:1}}\")",
+      "hash": "fa608f32e4d9bcf2de121811ef70b72f",
+      "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/simulation/brg_dssim_dpds.py -i $(dirname \"{{InputFile:1}}\")",
       "software": "python",
       "step_order": 5,
       "version_check": ""

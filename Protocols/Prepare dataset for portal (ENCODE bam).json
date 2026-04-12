@@ -1,20 +1,20 @@
 {
-    "description": "Prepare dataset for portal (ENCODE bam)",
-    "name": "Prepare dataset for portal (ENCODE bam)",
-    "reference": {
-        "BlackListHG38": "Extended black list for hg38.",
-        "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)",
-        "HG38_PRIMARY_FA": "Primary assemblies of human reference genome GRCh38+chrM+EBV."
-    },
-    "id": 392,
-    "step": [
-        {
-            "hash": "71528738f2efe284ade76bda557a0305",
-            "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/downsampling/portal_encode_data_prep.py --bams {{InBAMAccessions}} --peaks {{PeakAccession}} --fragments {{InputFile:1}} --barcode {{InputFile:2}} --chrom-size {{CellRangerATAC2020ChromSize}}  --genome-fa {{HG38_PRIMARY_FA}} --background-blacklist {{BlackListHG38}} --layout {{LayOut}}",
-            "software": "python",
-            "step_order": 1,
-            "version_check": ""
-        }
-    ],
-    "ver": "b381ec0746bc675630bee403a8e5a305"
+  "description": "Prepare dataset for portal (ENCODE bam)",
+  "name": "Prepare dataset for portal (ENCODE bam)",
+  "reference": {
+    "BlackListHG38": "Extended black list for hg38.",
+    "CellRangerATAC2020ChromSize": "Tab-separated file stores each chromosome's size (hg38)",
+    "HG38_PRIMARY_FA": "Primary assemblies of human reference genome GRCh38+chrM+EBV."
+  },
+  "id": 392,
+  "step": [
+    {
+      "hash": "9fa9db2686b59a1e12cd737cf3c15c2e",
+      "parameter": "{{UserBin}}/Analysis/Software/pipeline-helpers/simulation/portal_encode_data_prep.py --bams {{InBAMAccessions}} --peaks {{PeakAccession}} --fragments {{InputFile:1}} --barcode {{InputFile:2}} --chrom-size {{CellRangerATAC2020ChromSize}}  --genome-fa {{HG38_PRIMARY_FA}} --background-blacklist {{BlackListHG38}} --layout {{LayOut}}",
+      "software": "python",
+      "step_order": 1,
+      "version_check": ""
+    }
+  ],
+  "ver": "b381ec0746bc675630bee403a8e5a305"
 }

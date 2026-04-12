@@ -28,22 +28,22 @@
       "version_check": ""
     },
     {
-      "hash": "ac4d41d810dfe8ecf69d99c10cdd7d0c",
-      "parameter": "-s {{Workspace}}/DeepDETAILS/src/deepdetails {{Workspace}}/pipeline-helpers/downsampling/ || true",
+      "hash": "1a52be2dfabb7e7b457801e6f5efb5d3",
+      "parameter": "-s {{Workspace}}/DeepDETAILS/src/deepdetails {{Workspace}}/pipeline-helpers/simulation/ || true",
       "software": "ln",
       "step_order": 4,
       "version_check": ""
     },
     {
-      "hash": "ef36f97a006797358150fe3649248eb4",
-      "parameter": "-s {{Workspace}}/DeepDETAILS/src/details {{Workspace}}/pipeline-helpers/downsampling/ || true",
+      "hash": "97654f822d393e0d21057ff25b78f481",
+      "parameter": "-s {{Workspace}}/DeepDETAILS/src/details {{Workspace}}/pipeline-helpers/simulation/ || true",
       "software": "ln",
       "step_order": 5,
       "version_check": ""
     },
     {
-      "hash": "fcc5d1e22e9b2a668fcd667fc7102da6",
-      "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python {{Workspace}}/pipeline-helpers/downsampling/preflight.py --sample-labels {{SampleLabels}} --raw-frags {{InputFile}} --bulk-pl {{BulkPl}} --bulk-mn {{BulkMn}} --macs2-exec {{Macs2Path}} {{FlexPars}}",
+      "hash": "71e1f9b815c86e02e4faf9745844f53b",
+      "parameter": "PYTHONPATH={{Workspace}}/DeepDETAILS/src:$PYTHONPATH && python {{Workspace}}/pipeline-helpers/simulation/preflight.py --sample-labels {{SampleLabels}} --raw-frags {{InputFile}} --bulk-pl {{BulkPl}} --bulk-mn {{BulkMn}} --macs2-exec {{Macs2Path}} {{FlexPars}}",
       "software": "export",
       "step_order": 6,
       "version_check": ""
